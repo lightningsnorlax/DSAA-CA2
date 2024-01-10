@@ -1,12 +1,9 @@
-# Name: Lim Yu Yang Ian, Yadanar Aung
-# Admin No.: , 2214621
-# Class: DAAA/FT/2B/07
+from Classes.controller import Controller
+from Classes.general import General
 
-# ------------------
-# Imports
-# ------------------
+def main():
+    Controller.run()
 
 
-# ------------------
-# Main Program
-# ------------------
+if __name__ == "__main__":
+    main()
