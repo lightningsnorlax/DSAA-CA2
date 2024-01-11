@@ -53,6 +53,7 @@ class Controller:
             Controller.execute(user_input)
 
     @staticmethod
+    # Generate menu passed on existing functions that start with do_
     def generate_menu():
         do_methods = [m for m in dir(Controller) if m.startswith('do_')]
         print(f"\n\nPlease select your choice ('{"','".join([method[-1] for method in do_methods])}'):")
