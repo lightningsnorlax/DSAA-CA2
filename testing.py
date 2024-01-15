@@ -1,0 +1,72 @@
+import os
+import importlib
+from Classes.stack import Stack
+from Classes.general import General
+
+folderPath = "Actions"
+
+class Controller(Stack):
+    def __init__(self):
+        super().__init__()
+        self.__modules = []
+        self.__finished_modules = []
+        self.initialize_modules()
+
+    def initialize_modules(self):
+        self.push("do_")
+
+        for file in os.listdir(folderPath):
+            if file.endswith(".py") and file.startswith("do_"):
+                self.__modules.append(file)
+        self.__modules.sort()
+
+    def import_module(self, file):
+        module_name = file[:-3]
+        return importlib.import_module(f"{folderPath}.{module_name}")
+
+    def recursive_test(self, files):
+        for file in files:
+            if file not in self.__finished_modules:
+                module = self.import_module(file)
+                
+                sub_level_module_file = f"do_{file[3:-3]}_1.py"
+
+                if sub_level_module_file in files:
+                    self.recursive_test(list(filter(lambda x: x.startswith(f"{file[:-3]}_"), files)))
+
+                else:
+                    self.__finished_modules.append(file)
+                    print(module.action.__doc__)
+                    module.action()
+
+    def generate_menu(self):
+        current_modules = list(
+            filter(lambda x: x.startswith(self.__str__()) and len(x.replace("do_", "").split('_')) <= 1, self.__modules)
+        )
+        print(f"\n\nPlease select your choice ('{", ".join([str(num) for num in list(range(1, len(current_modules) + 1))])}'):")
+        print("\n".join([f"{i+1}. {self.import_module(module).action.__doc__}" for i, module in enumerate(current_modules)]))
+        print("Enter choice: ", end="")
+
+    # def start(self):
+    #     for i in General.getTextFromFile("banner.txt", "Additional Resources"):
+    #         print(i)
+
+    # def run(self):
+    #     user_input_error = True
+    #     while user_input_error:
+    #         self.generate_menu()
+    #         user_input = input()
+    #         controller.execute(user_input)
+
+    # def execute(self, user_input):
+    #     filePath = os.path.join(folderPath, f"{self.__str__}{user_input}.py")
+    #     if f"{filePath}_1" in self.__modules:
+    #         self.run()
+    #     try:
+    #         module = self.import_module(filePath)
+    #         module.action()
+    #     except FileNotFoundError:
+    #         print("Method not found")
+
+controller = Controller()
+controller.generate_menu()
