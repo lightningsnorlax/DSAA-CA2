@@ -62,4 +62,3 @@ class Controller:
              for method in do_methods])
         print(menu_string)
         print("Enter choice: ", end="")
-
