@@ -66,3 +66,7 @@ class HashTable:
 	# Retrieve all keys
 	def getAllKeys(self):
 		return [key for key in self.keys if key is not None]
+	
+	# Retrieve all items
+	def getAllItems(self):
+		return [f'{key}={self.buckets[i]}' for i, key in enumerate(self.keys) if key is not None]
