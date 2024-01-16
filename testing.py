@@ -1,6 +1,6 @@
 import os
 import importlib
-from Classes.stack import Stack
+from Classes.stack_new import Stack
 from Classes.general import General
 
 folderPath = "Actions"
@@ -40,33 +40,42 @@ class Controller(Stack):
                     module.action()
 
     def generate_menu(self):
+        print(self.__str__().replace("do_", "").split('_'))
         current_modules = list(
-            filter(lambda x: x.startswith(self.__str__()) and len(x.replace("do_", "").split('_')) <= 1, self.__modules)
+            filter(lambda x: x.startswith(self.__str__()) and (len(x.replace(self.__str__(), "").split('_')) <= 1), self.__modules)
         )
+
         print(f"\n\nPlease select your choice ('{", ".join([str(num) for num in list(range(1, len(current_modules) + 1))])}'):")
         print("\n".join([f"{i+1}. {self.import_module(module).action.__doc__}" for i, module in enumerate(current_modules)]))
         print("Enter choice: ", end="")
 
-    # def start(self):
-    #     for i in General.getTextFromFile("banner.txt", "Additional Resources"):
-    #         print(i)
+    def start(self):
+        for i in General.getTextFromFile("banner.txt", "Additional Resources"):
+            print(i)
+        self.run()#
 
-    # def run(self):
-    #     user_input_error = True
-    #     while user_input_error:
-    #         self.generate_menu()
-    #         user_input = input()
-    #         controller.execute(user_input)
+    def run(self):
 
-    # def execute(self, user_input):
-    #     filePath = os.path.join(folderPath, f"{self.__str__}{user_input}.py")
-    #     if f"{filePath}_1" in self.__modules:
-    #         self.run()
-    #     try:
-    #         module = self.import_module(filePath)
-    #         module.action()
-    #     except FileNotFoundError:
-    #         print("Method not found")
+        user_input_error = True
+        while user_input_error:
+            self.generate_menu()
+            user_input = input()
+            controller.execute(user_input)
+
+    def execute(self, user_input):
+        filePath = os.path.join(folderPath, f"{self}{user_input}.py")
+
+        if f"{self}{user_input}_1.py" in self.__modules:
+            self.push(f"{user_input}_")
+            self.run()
+        try:
+            module = self.import_module(filePath)
+            module.action()
+        except FileNotFoundError:
+            print("Method not found")
+        except ModuleNotFoundError:
+            print("Module not found")
 
 controller = Controller()
-controller.generate_menu()
+# controller.generate_menu()
+controller.start()
