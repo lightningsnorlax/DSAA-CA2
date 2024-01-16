@@ -10,9 +10,8 @@ def tokenize_expression(exp):
 def bracket_check_and_normalize(exp):
     if not bracket_checking(exp):
         return False
-    result = parsing_exp(equation)
+    result = parsing_exp(exp)
     return result
-    
 
 def bracket_checking(exp):
     count = 0
@@ -25,6 +24,7 @@ def bracket_checking(exp):
     return count == 0
 
 def add_brackets(exp):
+    print("exp", exp)
     operators = {"**": 3, "*": 2, "/": 2, "+": 1, "-": 1}
     tokens = tokenize_expression(exp)
 
@@ -63,6 +63,14 @@ def run_add_brackets_recursive(lst, level):
         if isinstance(item, list):
             if count % 2 != 0 and count >= 3:
                 result += add_brackets(temp)
+            elif count >= 3:
+                if temp[0].isnumeric():
+                    result += add_brackets(temp[:-1])
+                    result += temp[-1]
+                elif temp[-1].isnumeric():
+                    result += temp[1]
+                    result += add_brackets(temp[1:])
+                
             else:
                 result += temp
             temp = ""
@@ -107,10 +115,11 @@ def parsing_exp(exp):
     exp_str = exp_str.replace("'*', '*'", "'**'")
 
     exp_str = list(eval(exp_str))
+    print(exp_str)
     result = run_add_brackets_recursive(exp_str, 1)
     return result
 
 if __name__ == "__main__":
-    equation = "2+4*5**2-7"
+    equation = "((2+4*(5**2))-7)"
     result = bracket_check_and_normalize(equation)
     print(result)
