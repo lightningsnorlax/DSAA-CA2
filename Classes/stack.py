@@ -34,12 +34,4 @@ class Stack:
             return self.__list[-1] 
  
     def __str__(self):
-        output = '<'
-        for i in range(len(self.__list)):
-            item = self.__list[i]
-            if i < len(self.__list)-1 :
-                output += f'{str(item)}, '
-            else:
-                output += f'{str(item)}'
-        output += '>'
-        return output
+        return "".join(self.__list)

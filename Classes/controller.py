@@ -1,64 +1,88 @@
+import os
+import importlib
+from Classes.stack_new import Stack
 from Classes.general import General
 
-class Controller:
+folderPath = "Actions"
 
-    @staticmethod
-    def do_1():
-        "Add/Modify assignment statement"
-        print("Doing 1")
+class Controller(Stack):
+    def __init__(self):
+        super().__init__()
+        self.__modules = []
+        self.__finished_modules = []
+        self.initialize_modules()
 
-    @staticmethod
-    def do_2():
-        "Display current assignment statements"
-        print("Doing 2")
+    def initialize_modules(self):
+        self.push("do_")
 
-    @staticmethod
-    def do_3():
-        "Evaluate a single variable"
-        print("Doing 3")
+        for file in os.listdir(folderPath):
+            if file.endswith(".py") and file.startswith("do_"):
+                self.__modules.append(file)
+        self.__modules.sort()
 
-    @staticmethod
-    def do_4():
-        "Read assignment statements from file"
-        print("Doing 4")
+    def import_module(self, file):
+        module_name = file[:-3]
+        return importlib.import_module(f"{folderPath}.{module_name}")
 
-    @staticmethod
-    def do_5():
-        "Sort assignment statements"
-        print("Doing 5")
+    # def recursive_test(self, files):
+    #     for file in files:
+    #         if file not in self.__finished_modules:
+    #             module = self.import_module(file)
+                
+    #             sub_level_module_file = f"do_{file[3:-3]}_1.py"
 
-    @staticmethod
-    def do_6():
-        "Exit"
-        print("\nBye, thanks for using ST1507 DSAA: Assignment Statement Evaluator & Sorter")
+    #             if sub_level_module_file in files:
+    #                 self.recursive_test(list(filter(lambda x: x.startswith(f"{file[:-3]}_"), files)))
 
-    @staticmethod
-    def execute(user_input):
-        controller_name = f"do_{user_input}"
-        try:
-            controller = getattr(Controller, controller_name)
-        except AttributeError:
-            print("Method not found")
+    #             else:
+    #                 self.__finished_modules.append(file)
+    #                 print(module.action.__doc__)
+    #                 module.action()
+
+    def generate_menu(self):
+        current_modules = list(
+            filter(lambda x: x.startswith(self.__str__()) and (len(x.replace(self.__str__(), "").split('_')) <= 1), self.__modules)
+        )
+
+        print(f"\n\nPlease select your choice ('{", ".join([str(num) for num in list(range(1, len(current_modules) + 1))])}'):")
+        print("\n".join([f"{i+1}. {self.import_module(module).action.__doc__}" for i, module in enumerate(current_modules)]))
+        if self.__str__() == "do_":
+            print(f"{len(current_modules) + 1}. Exit")
         else:
-            controller()
+            print(f"{len(current_modules) + 1}. Back")
+        print("Enter choice: ", end="")
 
-    @staticmethod
-    def run():
+    def start(self):
         for i in General.getTextFromFile("banner.txt", "Additional Resources"):
             print(i)
-        user_input = 0
-        while(user_input != "6"):
-            Controller.generate_menu()
-            user_input = (input())
-            Controller.execute(user_input)
+        self.run()#
 
-    @staticmethod
-    # Generate menu passed on existing functions that start with do_
-    def generate_menu():
-        do_methods = [m for m in dir(Controller) if m.startswith('do_')]
-        print(f"\n\nPlease select your choice ('{"','".join([method[-1] for method in do_methods])}'):")
-        menu_string = "\n".join(
-            [f"{method[-1]}. {getattr(Controller, method).__doc__}"
-             for method in do_methods])
-        print(menu_string)
-        print("Enter choice: ", end="")
+    def run(self):
+
+        user_input_error = True
+        while user_input_error:
+            self.generate_menu()
+            user_input = input()
+            self.execute(user_input)
+            if self.size() <= 0:
+                user_input_error = False
+
+    def execute(self, user_input):
+        filePath = os.path.join(folderPath, f"{self}{user_input}.py")
+        current_modules = list(
+            filter(lambda x: x.startswith(self.__str__()) and (len(x.replace(self.__str__(), "").split('_')) <= 1), self.__modules)
+        )
+
+        if f"{self}{user_input}_1.py" in self.__modules:
+            self.push(f"{user_input}_")
+            self.run()
+        elif user_input == str(len(current_modules) + 1):
+            self.pop()
+        else:
+            try:
+                module = self.import_module(filePath[len(folderPath) + 1:])
+                module.action()
+            except FileNotFoundError:
+                print("Method not found")
+            except ModuleNotFoundError:
+                print("Module not found")
