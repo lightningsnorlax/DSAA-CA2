@@ -1,11 +1,19 @@
+# -------------------------
+# Imports
+# -------------------------
 import os
 import importlib
-from Classes.stack_new import Stack
+from Classes.stack import Stack
 from Classes.general import General
 
 folderPath = "Actions"
 
+# -------------------------
+# Controller Class
+# -------------------------
 class Controller(Stack):
+
+    # Constructor Function
     def __init__(self):
         super().__init__()
         self.__modules = []

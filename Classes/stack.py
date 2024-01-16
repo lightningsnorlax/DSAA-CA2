@@ -2,7 +2,8 @@
 # Stack Class
 # ------------------
 class Stack: 
- 
+    
+    # Constructor Function
     def __init__(self):
         self.__list= [] # private variable
 

@@ -1,22 +1,39 @@
+# -------------------------
+# HashTable Class
+# -------------------------
 class HashTable:
 
-	def __init__(self,size):
+	# Constructor Function
+	def __init__(self, size):
 		self.size = size
 		self.keys = [None] * self.size
 		self.buckets = [None] * self.size
 
 	# A simple remainder method to convert key to index
-	def hashFunction(self, key ):
-		return key % self.size
+	def hashFunction(self, key):
+		#return key % self.size
+		#return hash(key) % self.size
+
+		# Source Credits: https://cp-algorithms.com/string/string-hashing.html
+		p = 31
+		m = 10**9 + 9
+		hash_value = 0
+		p_pow = 1
+
+		for c in key:
+			hash_value = (hash_value + (ord(c) - ord('a') + 1) * p_pow) % m
+			p_pow = (p_pow * p) % m
+
+		return hash_value
 
 	# Deal with collision resolution by means of
 	# linear probing with a 'plus 1' rehash
-	def rehashFunction(self, oldHash ):
+	def rehashFunction(self, oldHash):
 		return (oldHash + 1) % self.size
 	
-	# Function for (key, value) insertion
+	# (key, value) insertion
 	def __setitem__(self, key, value):
-		index = self.hashFunction( key)
+		index = self.hashFunction(key)
 		startIndex = index
 		while True:
 			# If bucket is empty then just use it
@@ -34,17 +51,25 @@ class HashTable:
 					if index == startIndex:
 						break
 	
-	# Function for value retrieval from key
-	def __getitem__(self,key):
+	# Value retrieval from key
+	def __getitem__(self, key):
 		index = self.hashFunction(key)
 		startIndex = index
 		while True:
-			if self.keys [index] == key: # Will be mostly the case unless value
-																	 # had been previously rehashed at insertion
-																	 # time
+			if self.keys [index] == key: # Will be mostly the case unless value had been previously rehashed at insertion time
 				return self.buckets[index]
-			else: # Value for the key is somewhere else
-					  # (due to imperfect hash function)
-				index = self.rehashFunction(index )
+			else: # Value for the key is somewhere else (due to imperfect hash function)
+				index = self.rehashFunction(index)
 				if index == startIndex:
 					return None
+				
+	# Retrieve all keys
+	def getAllKeys(self):
+		return [key for key in self.keys if key is not None]
+	
+	# Retrieve all items
+	def getAllItems(self):
+		return [f'{key}={self.buckets[i]}' for i, key in enumerate(self.keys) if key is not None]
+	
+# Issues to relook at
+# relook at hash function, getAllKeys, getAllItems
