@@ -20,6 +20,8 @@ def main():
 # -------------------------
 if __name__ == "__main__":
     globalVars.initialize() # Initialize statementTable to be global to store assignment statements
-    do_1.action()
+    i = 0
+    for i in range(3):
+        do_1.action()
     do_2.action()
     #main()
