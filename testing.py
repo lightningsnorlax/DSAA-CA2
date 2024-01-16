@@ -51,7 +51,7 @@ class Controller(Stack):
         else:
             print(f"{len(current_modules) + 1}. Back")
         print("Enter choice: ", end="")
-
+# 
     def start(self):
         for i in General.getTextFromFile("banner.txt", "Additional Resources"):
             print(i)
