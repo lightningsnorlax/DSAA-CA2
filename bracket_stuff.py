@@ -74,7 +74,7 @@ def run_add_brackets_recursive(lst, level):
             count += 1
             
     # If no lists
-    if level == 1 and result[0] != "(":
+    if level == 1 and len(result) != 0 and result[0] != "(":
         result = "(" + result + ")"
         
     if count % 2 != 0 and count >= 3:
@@ -111,6 +111,6 @@ def parsing_exp(exp):
     return result
 
 if __name__ == "__main__":
-    equation = "2+(4*5**2)-7"
+    equation = "2+4*5**2-7"
     result = bracket_check_and_normalize(equation)
     print(result)
