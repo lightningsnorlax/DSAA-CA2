@@ -8,6 +8,7 @@ from binaryTree import BinaryTree
 # -------------------------
 class BST(BinaryTree): 
 
+	# Constructor Function
 	def __init__(self,key, 
 		leftTree = None, 
 		rightTree = None): 

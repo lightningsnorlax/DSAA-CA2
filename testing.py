@@ -1,6 +1,6 @@
 import os
 import importlib
-from Classes.stack_new import Stack
+from Classes.stack import Stack
 from Classes.general import General
 
 folderPath = "Actions"
