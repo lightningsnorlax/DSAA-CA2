@@ -1,8 +1,8 @@
 # -------------------------
 # Imports
 # -------------------------
-from binaryTree import BinaryTree
-from stack import Stack
+from Classes.binaryTree import BinaryTree
+from Classes.stack import Stack
 import re
 
 # -------------------------
