@@ -14,14 +14,43 @@ def bracket_check_and_normalize(exp):
     return result
 
 def bracket_checking(exp):
-    count = 0
+    operators = ["+", "-", "*", "/", "**"]
+    flag = True
+    bracket_count = 0
+    operator_count = 0
+    digit_count = 0
     for i in exp:
         if i == "(":
-            count += 1
+            bracket_count += 1
         elif i == ")":
-            count -= 1
+            bracket_count -= 1
+        elif i in operators:
+            operator_count += 1
+        elif i.isdigit():
+            digit_count += 1
+        else:
+            if i != " ":
+                flag = False
+                break
+            
+    if operator_count != digit_count - 1:
+        flag = False
+        
+    if flag:
+        tokens = tokenize_expression(exp)
+        balancing_value = True
+        for i in tokens:
+            if i.isdigit() and balancing_value:
+                balancing_value = False
+            elif (i in operators or i in ["(", ")"]) and (not balancing_value):
+                balancing_value = True
+            else:
+                flag = False
+                break
+        if not balancing_value:
+            flag = False
 
-    return count == 0
+    return bracket_count == 0
 
 def add_brackets(exp):
     print("exp", exp)
