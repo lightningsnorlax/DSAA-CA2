@@ -36,19 +36,19 @@ def bracket_checking(exp):
     if operator_count != digit_count - 1:
         flag = False
         
-    if flag:
-        tokens = tokenize_expression(exp)
-        balancing_value = True
-        for i in tokens:
-            if i.isdigit() and balancing_value:
-                balancing_value = False
-            elif (i in operators or i in ["(", ")"]) and (not balancing_value):
-                balancing_value = True
-            else:
-                flag = False
-                break
-        if not balancing_value:
-            flag = False
+    # if flag:
+    #     tokens = tokenize_expression(exp)
+    #     balancing_value = True
+        # for i in tokens:
+        #     if i.isdigit() and balancing_value:
+        #         balancing_value = False
+        #     elif (i in operators or i in ["(", ")"]) and (not balancing_value):
+        #         balancing_value = True
+        #     else:
+        #         flag = False
+        #         break
+        # if not balancing_value:
+        #     flag = False
 
     return bracket_count == 0
 
