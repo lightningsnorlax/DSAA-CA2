@@ -85,6 +85,7 @@ class Controller(Stack):
             try:
                 module = self.import_module(filePath[len(folderPath) + 1:])
                 module.action()
+                input("\nPress enter key, to continue....")
             except FileNotFoundError:
                 print("Method not found")
             except ModuleNotFoundError:

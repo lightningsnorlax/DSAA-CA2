@@ -1,6 +1,7 @@
 # -------------------------
 # HashTable Class
 # -------------------------
+import Classes.parseTree as parseTree
 class HashTable:
 
 	# Constructor Function
@@ -72,7 +73,8 @@ class HashTable:
 	
 	# Retrieve all items
 	def getAllItems(self):
-		return [f'{key}={self.buckets[i]}' for i, key in enumerate(self.keys) if key is not None]
+		return [(key, self.buckets[i]) for i, key in enumerate(self.keys) if key is not None]
+
 	
 # Issues to relook at
 # relook at hash function, getAllKeys, getAllItems
