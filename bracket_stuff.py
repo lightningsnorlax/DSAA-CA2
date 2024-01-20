@@ -13,6 +13,7 @@ def bracket_check_and_normalize(exp):
     result = parsing_exp(exp)
     return result
 
+# Check that brackets match up accordingly, open and close brackets
 def bracket_checking(exp):
     operators = ["+", "-", "*", "/", "**"]
     flag = True
@@ -82,6 +83,7 @@ def add_brackets(exp):
 
     return tokens[0]
 
+# recursive function to look at every layer of list, to bracket (calls add_bracket function)
 def run_add_brackets_recursive(lst, level):
     result = ""
     temp = ""
@@ -124,6 +126,7 @@ def run_add_brackets_recursive(lst, level):
 
     return result
 
+# turns brackets into list
 def parsing_exp(exp):
     exp = exp.replace("(", "[").replace(")", "]")
     exp_str = ""
@@ -149,6 +152,6 @@ def parsing_exp(exp):
     return result
 
 if __name__ == "__main__":
-    equation = "((2+4*(5**2))-7)"
+    equation = "2+4*5**2-7"
     result = bracket_check_and_normalize(equation)
     print(result)

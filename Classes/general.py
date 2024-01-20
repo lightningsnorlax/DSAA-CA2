@@ -11,7 +11,7 @@ class General:
 
     @staticmethod
     # Independent of I/O
-    def getTextFromFile(file_path, folder="input", chunk_size=1024):
+    def getTextFromFile(file_path, folder="Input", chunk_size=1024):
         path = Path(os.path.join(folder, file_path))
         print(path)
         try:

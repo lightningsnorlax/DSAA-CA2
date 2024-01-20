@@ -36,23 +36,32 @@ class BinaryTree:
             t = BinaryTree(key)
             self.rightTree , t.rightTree = t, self.rightTree
 	
+    # * L R
     def printPreorder(self, level): 
         print(str(level*'.') + str(self.key))
+
         if self.leftTree != None:
             self.leftTree.printPreorder(level+1)
+            
         if self.rightTree != None:
             self.rightTree.printPreorder(level+1)
 
+    # L * R
     def printInorder(self, level): 
         if self.leftTree != None:
             self.leftTree.printInorder(level+1)
+
         print(str(level*'.') + str(self.key))
+
         if self.rightTree != None:
             self.rightTree.printInorder(level+1)
 
+    # L R *
     def printPostorder(self, level): 
         if self.leftTree != None:
             self.leftTree.printPostorder(level+1)
+
         if self.rightTree != None:
             self.rightTree.printPostorder(level+1)
+
         print(str(level*'.') + str(self.key))

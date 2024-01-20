@@ -12,19 +12,22 @@ class HashTable:
 	# A simple remainder method to convert key to index
 	def hashFunction(self, key):
 		#return key % self.size
-		#return hash(key) % self.size
+		return hash(key) % self.size
 
 		# Source Credits: https://cp-algorithms.com/string/string-hashing.html
-		p = 31
-		m = 10**9 + 9
-		hash_value = 0
-		p_pow = 1
+		# p = 31
+		# m = 10**9 + 9
+		# hash_value = 0
+		# p_pow = 1
 
-		for c in key:
-			hash_value = (hash_value + (ord(c) - ord('a') + 1) * p_pow) % m
-			p_pow = (p_pow * p) % m
+		# for c in key:
+		# 	hash_value = (hash_value + (ord(c) - ord('a') + 1) * p_pow) % m
+		# 	p_pow = (p_pow * p) % m
 
-		return hash_value
+		# hash_value = hash(key)
+		# print(hash_value)
+
+		#return hash_value
 
 	# Deal with collision resolution by means of
 	# linear probing with a 'plus 1' rehash

@@ -3,6 +3,7 @@
 # -------------------------
 import Classes.globalVars as globalVars
 import Classes.parseTree as parseTree
+import Classes.mergeSort as mergeSort
 
 # -------------------------
 # Action Function
@@ -10,10 +11,14 @@ import Classes.parseTree as parseTree
 def action():
     "Display current assignment statements"
 
-    print("CURRENT ASSIGNMENTS:\n********************")
+    print("\nCURRENT ASSIGNMENTS:\n********************")
+
+    # Sort statements in alphabetical order, according to variable name (key)
+    keys = globalVars.statementTable.getAllKeys()
+    mergeSort.mergeSort(keys)
 
     # Loop through all existing keyes in statementTable
-    for key in globalVars.statementTable.getAllKeys():
+    for key in keys:
         expression = globalVars.statementTable[key]
         tree = parseTree.buildParseTree(expression)
         evaluation = parseTree.evaluate(tree)
