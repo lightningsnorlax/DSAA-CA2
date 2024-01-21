@@ -14,16 +14,16 @@ def action():
     print("\nCURRENT ASSIGNMENTS:\n********************")
 
     # Sort statements in alphabetical order, according to variable name (key)
-    keys = globalVars.statementTable.getAllKeys()
-    mergeSort.mergeSort(keys)
+    sortedKeys = globalVars.statementTable.getAllKeys()
+    mergeSort.mergeSort(sortedKeys)
 
     # Loop through all existing keyes in statementTable
-    for key in keys:
+    for key in sortedKeys:
         expression = globalVars.statementTable[key]
         tree = parseTree.buildParseTree(expression)
         evaluation = parseTree.evaluate(tree)
         print(f'{key}={expression}=> {evaluation}')
         
+    print("\n")
 # issues to handle
-# tranversal printing orders (related option 3)
 # how to return integers without the decimanl points

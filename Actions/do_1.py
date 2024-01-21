@@ -27,7 +27,5 @@ def action():
     # Upload to Hash Table
     globalVars.statementTable[variableName] = expression
 
-    input("\nPress enter key, to continue....\n")
-
 # issues to take note of
 # index out of range when variable name is 'e'

@@ -40,6 +40,7 @@ def action():
         variableName, expression = assigmentStatement.split("=")
         return variableName, expression
 
+    # Loop through list of statements
     for statement in message:
         # Extract variable name & expression from statement
         variableName, expression = variable_expression(statement)
@@ -47,6 +48,5 @@ def action():
         # Upload to Hash Table
         globalVars.statementTable[variableName] = expression
 
+    # Print out current assignments
     do_2.action()
-
-    

@@ -9,6 +9,9 @@ import os
 # -------------------------
 class General:
 
+    def __init__(self):
+        pass
+
     @staticmethod
     # Independent of I/O
     def getTextFromFile(file_path, folder="Input", chunk_size=1024):

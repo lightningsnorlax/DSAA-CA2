@@ -1,10 +1,18 @@
+# -------------------------
+# Imports
+# -------------------------
 import Classes.globalVars as globalVars
 import Classes.parseTree as parseTree
 import Classes.mergeSort as mergeSort
 from Classes.hashTable import HashTable
 
+# -------------------------
+# Action Function
+# -------------------------
 def action():
     "Sort assignment statements"
+    # By their value (in descending order), followed by alphabetically order by variable name
+    # Sorted results will be written back to an output file
 
     output_path = "output.txt"
 
