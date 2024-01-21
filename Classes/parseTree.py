@@ -5,6 +5,7 @@ import Classes.globalVars as globalVars
 from Classes.binaryTree import BinaryTree
 from Classes.stack import Stack
 import re
+import operator
 
 # -------------------------
 # buildParseTree Function
@@ -66,22 +67,16 @@ def buildParseTree(exp):
 # Evaluate Parse Tree Function
 # ----------------------------
 def evaluate(tree):
+	# Source Credits: https://runestone.academy/ns/books/published/pythonds/Trees/ParseTree.html
+	operators = {'+' : operator.add, '-' : operator.sub, '*' : operator.mul, '/' : operator.truediv, '**' : operator.pow}
+	
 	leftTree = tree.getLeftTree()
 	rightTree = tree.getRightTree()
-	op = tree.getKey() # root node
 
 	try:
-		if leftTree != None and rightTree != None: 
-			if op == '+':
-				return evaluate(leftTree) + evaluate(rightTree)
-			elif op == '-':
-				return evaluate(leftTree) - evaluate(rightTree)
-			elif op == '*':
-				return evaluate(leftTree) * evaluate(rightTree)
-			elif op == '/':
-				return evaluate(leftTree) / evaluate(rightTree)
-			elif op == '**':
-				return evaluate(leftTree) ** evaluate(rightTree)
+		if leftTree != None and rightTree != None:
+			function = operators[tree.getKey()] # root node to get operator
+			return function(evaluate(leftTree), evaluate(rightTree))
 		else: # Check if leaf node
 			try: 
 				# Check if it is a variable name
