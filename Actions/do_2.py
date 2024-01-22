@@ -24,3 +24,7 @@ def action():
         parseTree = ParseTree(key = '?', exp = expression)
         evaluation = parseTree.evaluateTree()
         print(f'{key}={expression}=> {evaluation}')
+        
+    print("\n")
+# issues to handle
+# how to return integers without the decimanl points
