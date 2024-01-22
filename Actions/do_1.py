@@ -26,6 +26,3 @@ def action():
 
     # Upload to Hash Table
     globalVars.statementTable[variableName] = expression
-
-# issues to take note of
-# index out of range when variable name is 'e'
