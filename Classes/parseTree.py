@@ -66,18 +66,22 @@ class ParseTree(BinaryTree):
 				raise ValueError
 		return tree
 
-	def evaluate(self):
+	def evaluateTree(self):
 		tree = self.__buildParseTree()
+		return self.__evaluate(tree)
+	
 
+	def __evaluate(self, tree):
 		# Source Credits: https://runestone.academy/ns/books/published/pythonds/Trees/ParseTree.html
-		operators = {'+':operator.add, '-':operator.sub, '*':operator.mul, '/':operator.truediv, '**':operator.pow}
+		operators = {'+' : operator.add, '-' : operator.sub, '*' : operator.mul, '/' : operator.truediv, '**' : operator.pow}
+		
 		leftTree = tree.getLeftTree()
 		rightTree = tree.getRightTree()
 
 		try:
 			if leftTree != None and rightTree != None:
 				function = operators[tree.getKey()] # root node to get operator
-				return function(self.evaluate(leftTree),self.evaluate(rightTree))
+				return function(self.__evaluate(leftTree), self.__evaluate(rightTree))
 			else: # Check if leaf node
 				try: 
 					# Check if it is a variable name
@@ -86,15 +90,15 @@ class ParseTree(BinaryTree):
 						# Check if it is an existing variable name in statementTable
 						if variableName in globalVars.statementTable.getAllKeys():
 							expression = globalVars.statementTable[variableName]
-							parseTree = self.buildParseTree(expression)
-							return self.evaluate(parseTree)
+							parseTree = self.__buildParseTree(expression)
+							return self.__evaluate(parseTree)
 						else:
 							return None
 				except:
 					return tree.getKey()
 		except:
 			return None
-
+	
 # # -------------------------
 # # buildParseTree Function
 # # -------------------------
