@@ -5,7 +5,7 @@ import re
 from Classes.stack import Stack
 from Classes.binaryTree import BinaryTree
 # from Classes.parseTree import buildParseTree, evaluate
-import Classes.parseTree as parseTree
+from Classes.parseTree import ParseTree
 import Classes.globalVars as globalVars
 
 # -------------------------
@@ -22,9 +22,11 @@ def action():
         print(f"\nExpression Tree: ")
 
         expression = globalVars.statementTable[user_input]
-        tree = parseTree.buildParseTree(expression)
-        evaluation = parseTree.evaluate(tree)
-        tree.printInorder(0)
+        
+        parseTree = ParseTree(key='?', exp=expression)
+        evaluation = parseTree.evaluateTree()
+        parseTree.printInorder(0)
+        
         print(f'Value for variable "{user_input}" is {evaluation}')
     else:
         print(f"Variable {user_input} does not exist in the current assignment statements")
