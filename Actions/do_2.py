@@ -2,7 +2,7 @@
 # Imports
 # -------------------------
 import Classes.globalVars as globalVars
-import Classes.parseTree as parseTree
+from Classes.parseTree import ParseTree
 import Classes.mergeSort as mergeSort
 
 # -------------------------
@@ -20,8 +20,11 @@ def action():
     # Loop through all existing keyes in statementTable
     for key in sortedKeys:
         expression = globalVars.statementTable[key]
-        tree = parseTree.buildParseTree(expression)
-        evaluation = parseTree.evaluate(tree)
+        # parseTree = ParseTree(key='?')
+        # tree = parseTree.buildParseTree(expression)
+        # evaluation = parseTree.evaluate(tree)
+        parseTree = ParseTree(key = '?', exp = expression)
+        evaluation = parseTree.evaluate()
         print(f'{key}={expression}=> {evaluation}')
         
     print("\n")
