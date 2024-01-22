@@ -2,9 +2,10 @@
 # Imports
 # -------------------------
 import Classes.globalVars as globalVars
-import Classes.parseTree as parseTree
+from Classes.parseTree import ParseTree
 import Classes.mergeSort as mergeSort
 from Classes.hashTable import HashTable
+from Classes.general import General
 
 # -------------------------
 # Action Function
@@ -18,24 +19,25 @@ def action():
 
     by_result = HashTable(size=100)
     printed = []
+    
+    General.writeToTextToFile(output_path, "")
+    
+    for key in globalVars.statementTable.getAllKeys():
+        parseTree = ParseTree(key='?', exp=globalVars.statementTable[key])
+        evaluation = parseTree.evaluateTree()
+        by_result[key] = evaluation
 
-    with open(output_path, "w") as file:
-        for key in globalVars.statementTable.getAllKeys():
-            tree = parseTree.buildParseTree(globalVars.statementTable[key])
-            evaluation = parseTree.evaluate(tree)
-            by_result[key] = evaluation
+    sorted_results = sorted(set(by_result.getAllItems()), key=lambda x: (float('-inf') if x[1] is None else x[1]), reverse=True)
 
-        sorted_results = sorted(set(by_result.getAllItems()), key=lambda x: (float('-inf') if x[1] is None else x[1]), reverse=True)
+    for result in sorted_results:
 
-        for result in sorted_results:
+        if result[1] in printed:
+            continue
 
-            if result[1] in printed:
-                continue
+        expressions = [(key, globalVars.statementTable[key]) for key, value in by_result.getAllItems() if value == result[1]]
+        General.appendTextToFile(output_path, f"*** Statements with value=> {result[1]}\n")
+        for key, expression in expressions:
+            General.appendTextToFile(output_path, f"{key}={expression}\n")
+        General.appendTextToFile(output_path, "\n")
 
-            expressions = [(key, globalVars.statementTable[key]) for key, value in by_result.getAllItems() if value == result[1]]
-            file.write(f"*** Statements with value=> {result[1]}\n")
-            for key, expression in expressions:
-                file.write(f"{key}={expression}\n")
-            file.write("\n")
-
-            printed.append(result[1])
+        printed.append(result[1])

@@ -26,3 +26,18 @@ class General:
                     yield chunk
         except FileNotFoundError:
             print(f"File {file_path} not found in {folder} folder")
+            
+    @staticmethod
+    # Independent of I/O
+    def writeToTextToFile(file_path, text="", folder="Output", ):
+        path = Path(os.path.join(folder, file_path))
+        with open(path, 'w') as file:
+            file.write(text)
+            
+    @staticmethod
+    def appendTextToFile(file_path, text="", folder="Output"):
+        path = Path(os.path.join(folder, file_path))
+        with open(path, 'a') as file:
+            file.write(text)
+        
+        
