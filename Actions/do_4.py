@@ -5,6 +5,7 @@ import Classes.globalVars as globalVars
 import Actions.do_1 as do_1
 import Actions.do_2 as do_2
 from Classes.fileHandler import FileHandler
+from Classes.general import General
 
 def action():
     "Read assignment statements from file"
