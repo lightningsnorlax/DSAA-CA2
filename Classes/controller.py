@@ -52,7 +52,7 @@ class Controller(Stack):
             filter(lambda x: x.startswith(self.__str__()) and (len(x.replace(self.__str__(), "").split('_')) <= 1), self.__modules)
         )
 
-        print(f"\nPlease select your choice ('{", ".join([str(num) for num in list(range(1, len(current_modules) + 1))])}'):")
+        print(f"\nPlease select your choice ('{"','".join([str(num) for num in list(range(1, len(current_modules) + 2))])}'):")
         print("\n".join([f"{i+1}. {self.import_module(module).action.__doc__}" for i, module in enumerate(current_modules)]))
         if self.__str__() == "do_":
             print(f"{len(current_modules) + 1}. Exit")
