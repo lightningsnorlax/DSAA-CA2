@@ -1,7 +1,6 @@
 # -------------------------
 # HashTable Class
 # -------------------------
-import Classes.parseTree as parseTree
 class HashTable:
 
 	# Constructor Function

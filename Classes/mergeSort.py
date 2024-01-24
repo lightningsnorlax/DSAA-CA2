@@ -1,3 +1,6 @@
+# -------------------------
+# mergeSort function
+# -------------------------
 def mergeSort(l):
 	if len(l) > 1:
 		mid = int (len(l)/2)

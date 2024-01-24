@@ -61,7 +61,6 @@ class Controller(Stack):
         print("Enter choice: ", end="")
 
     def run(self):
-
         user_input_error = True
         while user_input_error:
             self.generate_menu()

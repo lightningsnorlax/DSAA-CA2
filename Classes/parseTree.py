@@ -2,7 +2,7 @@
 # Imports
 # -------------------------
 import Classes.globalVars as globalVars
-from Classes.binaryTree import BST
+from Classes.binaryTree import BinaryTree
 from Classes.stack import Stack
 import re
 import operator
@@ -10,7 +10,9 @@ import operator
 # -------------------------
 # ParseTree Class
 # -------------------------
-class ParseTree(BST):
+class ParseTree(BinaryTree):
+
+	# Constructor Function
 	def __init__(self, key='?', exp = None, leftTree=None, rightTree=None):
 		super().__init__(key, leftTree, rightTree)
 		self.exp = exp
