@@ -4,6 +4,8 @@
 import Classes.globalVars as globalVars
 import Actions.do_2 as do_2
 from Classes.fileHandler import FileHandler
+from Classes.general import General
+from Classes.bracket_stuff import Bracketting
 
 def action():
     "Read assignment statements from file"
@@ -12,40 +14,15 @@ def action():
     file = FileHandler(folder_path = 'Input')
 
     # Input File Validation
-    validInputFile = False
-    while not validInputFile:
-        inputFile = input(f'Please enter input file: ')
-        if inputFile[-4:] == ".txt":
-            try:
-                # Attempt to read from file
-                file.readFromFile(inputFile)
-                message = file.getMsg()
-                # # Check if content of file is empty
-                # if not message or message.isspace():
-                #     print('The file content is empty or contains only whitespaces. You may want to check and try again.')
-                #     validInputFile = False
-                # else:
-                validInputFile = True
-            except FileNotFoundError:
-                print("File does not exist! Please check that it's in the Input Folder.")
-                validInputFile = False
-        else: # Incorrect file type
-            print('Invalid File Type! Please re-enter only .txt format files.')
-            validInputFile = False
+    inputFile = General.validationTracking("Please enter input file: ",
+                                           lambda x: x.endswith(".txt"))
 
-    # Function to extract variable name & expression from assignment statement
-    def variable_expression(assigmentStatement):
-        # Extract Variable Name
-        variableName, expression = assigmentStatement.split("=")
-        return variableName, expression
-
-    # Loop through list of statements
-    for statement in message:
-        # Extract variable name & expression from statement
-        variableName, expression = variable_expression(statement)
-
-        # Upload to Hash Table
-        globalVars.statementTable[variableName] = expression
+    for line in file.readByLine(inputFile):
+        if Bracketting(line, False).bracket_checking():
+            variableName, expression = line.split("=")
+            globalVars.statementTable[variableName] = expression
+        else:
+            print("Invalid expression:", line)
 
     # Print out current assignments
     do_2.action()

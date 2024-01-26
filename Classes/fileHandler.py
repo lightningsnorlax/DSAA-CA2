@@ -36,7 +36,20 @@ class FileHandler:
         file_path = os.path.join(output_folder_path, output_file_name)
         with open(file_path, 'w') as file:
             file.write(msg) # write to new txt file
-
+            
+    def appendToFile(self, output_folder_path, output_file_name, msg):
+        file_path = os.path.join(output_folder_path, output_file_name)
+        with open(file_path, 'a') as file:
+            file.write(msg)
+            
+    def readByLine(self, file_name):
+        file_path = os.path.join(self.__folder_path, file_name)
+        try:
+            with open(file_path, 'r') as file:
+                for line in file:
+                    yield line
+        except FileNotFoundError:
+            print(f"File {file_name} not found in {self.__folder_path} folder")
 
     # ------------------
     # For Reference
@@ -55,16 +68,3 @@ class FileHandler:
                     yield chunk
         except FileNotFoundError:
             print(f"File {file_path} not found in {folder} folder")
-            
-    @staticmethod
-    # Independent of I/O
-    def writeToTextToFile(file_path, text="", folder="Output", ):
-        path = Path(os.path.join(folder, file_path))
-        with open(path, 'w') as file:
-            file.write(text)
-            
-    @staticmethod
-    def appendTextToFile(file_path, text="", folder="Output"):
-        path = Path(os.path.join(folder, file_path))
-        with open(path, 'a') as file:
-            file.write(text)  

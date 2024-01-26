@@ -27,6 +27,8 @@ def action():
         evaluation = parseTree.evaluateTree()
         parseTree.printInorder(0)
         
+        if int(evaluation) == evaluation:
+            evaluation = int(evaluation)
         print(f'Value for variable "{user_input}" is {evaluation}')
     else:
         print(f"Variable {user_input} does not exist in the current assignment statements")

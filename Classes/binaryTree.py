@@ -51,8 +51,11 @@ class BinaryTree:
         if self.leftTree != None:
             self.leftTree.printInorder(level+1)
 
-        print(str(level*'.') + str(self.key))
-
+        if type(self.key) == float and int(self.key) == float(self.key):
+            print(str(level*'.') + str(int(self.key)))
+        else:
+            print(str(level*'.') + str(self.key))
+        
         if self.rightTree != None:
             self.rightTree.printInorder(level+1)
 

@@ -6,6 +6,7 @@ from Classes.parseTree import ParseTree
 import Classes.mergeSort as mergeSort
 from Classes.hashTable import HashTable
 from Classes.general import General
+from Classes.fileHandler import FileHandler
 
 # -------------------------
 # Action Function
@@ -15,12 +16,14 @@ def action():
     # By their value (in descending order), followed by alphabetically order by variable name
     # Sorted results will be written back to an output file
 
-    output_path = "output.txt"
+    output_path = General.validationTracking("Please enter output file: ", 
+                                             lambda x: x.endswith(".txt"))
 
     by_result = HashTable(size=100)
     printed = []
     
-    General.writeToTextToFile(output_path, "")
+    file = FileHandler(folder_path = 'Output')
+    file.writeToFile(output_path, "")
     
     for key in globalVars.statementTable.getAllKeys():
         parseTree = ParseTree(key='?', exp=globalVars.statementTable[key])
@@ -35,9 +38,9 @@ def action():
             continue
 
         expressions = [(key, globalVars.statementTable[key]) for key, value in by_result.getAllItems() if value == result[1]]
-        General.appendTextToFile(output_path, f"*** Statements with value=> {result[1]}\n")
+        file.appendToFile(output_path, f"*** Statements with value=> {result[1]}\n")
         for key, expression in expressions:
-            General.appendTextToFile(output_path, f"{key}={expression}\n")
-        General.appendTextToFile(output_path, "\n")
+            file.appendToFile(output_path, f"{key}={expression}\n")
+        file.appendToFile(output_path, "\n")
 
         printed.append(result[1])
