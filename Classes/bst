@@ -9,9 +9,7 @@ from Classes.binaryTree import BinaryTree
 class BST(BinaryTree): 
 
 	# Constructor Function
-	def __init__(self,key, 
-		leftTree = None, 
-		rightTree = None): 
+	def __init__(self, key, leftTree = None, rightTree = None): 
 		super().__init__(key,leftTree,rightTree)
 	
 	# Add Function: add new nodes as leafs

@@ -7,6 +7,9 @@ from Classes.fileHandler import FileHandler
 from Classes.general import General
 from Classes.bracket_stuff import Bracketting
 
+# -------------------------
+# Action Function
+# -------------------------
 def action():
     "Read assignment statements from file"
     
