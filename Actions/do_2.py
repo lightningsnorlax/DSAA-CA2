@@ -27,7 +27,5 @@ def action():
         # Create an instance of ParseTree
         parseTree = ParseTree(key = '?', exp = expression)
         evaluation = parseTree.evaluateTree()
-        print(f'{key}={expression}=> {evaluation}')
-        
-# issues to handle
-# how to return integers without the decimanl points
+        # Print evaluation without leading zeros
+        print(f'{key}={expression}=> {int(evaluation) if int(evaluation) == evaluation else evaluation}')

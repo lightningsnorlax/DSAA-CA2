@@ -6,7 +6,6 @@
 # Imports
 # -------------------------
 from Classes.controller import Controller
-from Classes.general import General
 import Classes.globalVars as globalVars
 from Classes.fileHandler import FileHandler
 
