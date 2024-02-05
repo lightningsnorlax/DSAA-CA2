@@ -10,6 +10,9 @@ from Classes.binaryTree import BinaryTree
 from Classes.stack import Stack
 import re
 import operator
+import turtle
+import tkinter as tk
+import time
 
 # -------------------------
 # ParseTree Class
@@ -105,5 +108,64 @@ class ParseTree(BinaryTree):
 		except:
 			return None
 
-# Issues to relook at
-# handling of non existing variable names
+	def drawParseTree(self):
+		# Referenced Source Code Credits: https://gist.github.com/Liwink/b81e726ad89df8b0754a3a1d0c40d0b4
+		def _convertToDrawString(tree):
+			if tree is None:
+				return 'null'
+			if isinstance(tree.key, float):
+				return str(tree.key)
+			if tree.key.isalpha():
+				return tree.key
+			return f'[{tree.key} {_convertToDrawString(tree.leftTree)} {_convertToDrawString(tree.rightTree)}]'
+		
+		def on_screen_click(x, y):
+			print(f"Screen clicked at coordinates ({x}, {y})")
+            # You can implement redirection logic or any other action here
+		
+		def _draw(node, x, y, dx):
+			if node:
+				t.goto(x, y)
+				t.penup()
+				t.goto(x, y-20)
+				t.pendown()
+
+				t.write(str(node.key), align='center', font=('Arial', 12, 'normal'))
+
+				_draw(node.leftTree, x-dx, y-60, dx)
+
+				t.penup()
+				t.goto(x, y-20)
+				t.pendown()
+				
+				_draw(node.rightTree, x+dx, y-60, dx)
+
+		draw_string = _convertToDrawString(self.__buildParseTree())
+
+		# Set up turtle window with a minimum width and height
+		min_width = 300
+		min_height = 300
+		turtle_width = max(len(draw_string) * 10, min_width) # Adjust factor accordingly
+		turtle_height = max(300, min_height)
+
+		# Set up Tkinter window
+		root = tk.Tk()
+		root.geometry(f'{turtle_width}x{turtle_height}-5+40')  # Adjust window size and position as needed
+		cv = turtle.ScrolledCanvas(root, width=900, height=900)
+		cv.pack()
+		screen = turtle.TurtleScreen(cv)
+		screen.screensize(2000, 1500)
+		t = turtle.RawTurtle(screen)
+		t.hideturtle()
+
+		t.speed(0)
+
+		t.penup()
+		t.goto(0, 30 * 2)
+
+		_draw(self, 0, 30 * 2, 35 * 2)
+
+		# Bind the click event to the screen
+		screen.onclick(on_screen_click)
+
+		root.mainloop()

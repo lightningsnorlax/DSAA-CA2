@@ -18,7 +18,7 @@ def action():
     print("Please enter the variable you want to evaluate: ")
     user_input = input()
 
-    # Check if user request variable exists
+    # Check if user requested variable exists
     if user_input in globalVars.statementTable.getAllKeys():
         print(f"\nExpression Tree: ")
 

@@ -42,11 +42,15 @@ def action():
             continue
 
         expressions = [(key, globalVars.statementTable[key]) for key, value in by_result.getAllItems() if value == result[1]]
+        sorted_expression_keys = mergeSort.mergeSort([key for key, _ in expressions])
         # Print value, removed leading zeros
         file.appendToFile(output_folder_path = 'Output', output_file_name = output_path, msg = f"*** Statements with value=> {int(result[1]) if result[1]!= None and int(result[1]) == result[1] else result[1]}\n")
+        
         # Add corresponding variables with that value
-        for key, expression in expressions:
-            file.appendToFile(output_folder_path = 'Output', output_file_name = output_path, msg = f"{key}={expression}\n")
+        for key in sorted_expression_keys:
+            # Find matching key-value in expressions list
+            expression_value = next((value for k, value in expressions if k == key), None)
+            file.appendToFile(output_folder_path = 'Output', output_file_name = output_path, msg = f"{key}={expression_value}\n")
         file.appendToFile(output_folder_path = 'Output', output_file_name = output_path, msg = "\n")
 
         printed.append(result[1])
