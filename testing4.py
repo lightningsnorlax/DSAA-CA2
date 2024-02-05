@@ -9,9 +9,11 @@ class Bracketting():
         self.__bracket_check = bracket_check
         self.__pattern = self.__getPattern()
 
-    def __is_valid_decimal(self, s):
+    def __is_valid_decimal_or_variable_name(self, s):
         if '.' in s:
             return s.replace('.', '', 1).isdigit()
+        elif s.isalpha():
+            return True
         return s.isdigit()
     
     def __getPattern(self):
@@ -20,7 +22,8 @@ class Bracketting():
             for char in i:
                 new_pattern += f"\\{char}"
             new_pattern += "|"
-        new_pattern += r"\d+\.\d+|\d+)"
+        new_pattern += r"\b[a-zA-Z_]+\b|\d+\.\d+|\d+)"
+        print(new_pattern)
         return new_pattern
     
     def __tokenize_expression(self, exp):
@@ -52,12 +55,12 @@ class Bracketting():
         print(tokens)
         flagging = True
         for i in tokens:
-            if self.__is_valid_decimal(i):
+            if self.__is_valid_decimal_or_variable_name(i):
                 digit_count += 1
             elif i in self.__operators:
                 operator_count += 1
                 
-            if self.__is_valid_decimal(i) and flagging:
+            if self.__is_valid_decimal_or_variable_name(i) and flagging:
                 flagging = False
             elif i in self.__operators and not flagging:
                 flagging = True
@@ -174,5 +177,5 @@ class Bracketting():
         return result
             
 if __name__ == "__main__":       
-    brackets = Bracketting("2.2+4*5**2-7", False)
+    brackets = Bracketting("2.2+4*5**2-7+a", False)
     print(brackets.bracket_checking())

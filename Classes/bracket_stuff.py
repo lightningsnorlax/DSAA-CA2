@@ -19,9 +19,11 @@ class Bracketting():
         self.__bracket_check = bracket_check
         self.__pattern = self.__getPattern()
 
-    def __is_valid_decimal(self, s):
+    def __is_valid_decimal_or_variable_name(self, s):
         if '.' in s:
             return s.replace('.', '', 1).isdigit()
+        elif s.isalpha():
+            return True
         return s.isdigit()
     
     def __getPattern(self):
@@ -30,7 +32,7 @@ class Bracketting():
             for char in i:
                 new_pattern += f"\\{char}"
             new_pattern += "|"
-        new_pattern += r"\d+\.\d+|\d+)"
+        new_pattern += r"\b[a-zA-Z_]+\b|\d+\.\d+|\d+)"
         return new_pattern
     
     def __tokenize_expression(self, exp):
@@ -61,12 +63,12 @@ class Bracketting():
         tokens = self.__tokenize_expression(temp_exp)
         flagging = True
         for i in tokens:
-            if self.__is_valid_decimal(i):
+            if self.__is_valid_decimal_or_variable_name(i):
                 digit_count += 1
             elif i in self.__operators:
                 operator_count += 1
                 
-            if self.__is_valid_decimal(i) and flagging:
+            if self.__is_valid_decimal_or_variable_name(i) and flagging:
                 flagging = False
             elif i in self.__operators and not flagging:
                 flagging = True
@@ -181,120 +183,3 @@ class Bracketting():
         print(exp_str)
         result = self.run_add_brackets_recursive(exp_str, 1)
         return result
-            
-if __name__ == "__main__":       
-    brackets = Bracketting("2+4*5**2-7")
-    print(brackets.bracket_checking())
-
-
-
-# def bracket_check_and_normalize(exp):
-#     if not bracket_checking(exp):
-#         return False
-#     result = parsing_exp(exp)
-#     return result
-
-
-
-# def add_brackets(exp):
-#     print("exp", exp)
-#     operators = {"**": 3, "*": 2, "/": 2, "+": 1, "-": 1}
-#     tokens = tokenize_expression(exp)
-
-#     while len(tokens) > 1:
-#         operator_list = []
-#         operator_list_index = []
-
-#         for i, token in enumerate(tokens):
-#             if token in operators:
-#                 operator_list_index.append(i)
-#                 operator_list.append(token)
-
-#         max_precedence = max(operators.values())
-
-#         for precedence in range(max_precedence, 0, -1):
-#             for operator_index, operator in enumerate(operator_list_index):
-#                 if operators[tokens[operator]] == precedence:
-#                     tokens = (
-#                         tokens[: operator - 1]
-#                         + [f"({tokens[operator - 1]}{tokens[operator]}{tokens[operator + 1]})"]
-#                         + tokens[operator + 2 :]
-#                     )
-#                     operator_list_index.pop(operator_index)
-#                     operator_list.pop(operator_index)
-#                     break
-
-#     return tokens[0]
-
-# # recursive function to look at every layer of list, to bracket (calls add_bracket function)
-# def run_add_brackets_recursive(lst, level):
-#     result = ""
-#     temp = ""
-#     count = 0
-#     for i, item in enumerate(lst):
-        
-#         # If a list, recursive
-#         if isinstance(item, list):
-#             if count % 2 != 0 and count >= 3:
-#                 result += add_brackets(temp)
-#             elif count >= 3:
-#                 if temp[0].isnumeric():
-#                     result += add_brackets(temp[:-1])
-#                     result += temp[-1]
-#                 elif temp[-1].isnumeric():
-#                     result += temp[1]
-#                     result += add_brackets(temp[1:])
-                
-#             else:
-#                 result += temp
-#             temp = ""
-#             count = 0
-#             result += run_add_brackets_recursive(lst[i], level + 1)
-            
-#         else:
-#             temp += item
-#             count += 1
-            
-#     # If no lists
-#     if level == 1 and len(result) != 0 and result[0] != "(":
-#         result = "(" + result + ")"
-        
-#     if count % 2 != 0 and count >= 3:
-#         result += add_brackets(temp)  
-#     else:
-#         result += temp  # Move this line here
-        
-#     if level == 1 and result[-1] != ")":
-#         result = "(" + result + ")"
-
-#     return result
-
-# # turns brackets into list
-# def parsing_exp(exp):
-#     exp = exp.replace("(", "[").replace(")", "]")
-#     exp_str = ""
-#     for index, i in enumerate(exp):
-#         if i != " ":
-#             if i == "[" or i == "]":
-#                 s = i
-#             else:
-#                 s = f"'{i}'"
-#             if len(exp_str) == 0 or (len(exp_str) > 0 and exp[index-1] == "[") or i == "]":
-#                 exp_str += f"{s}"
-#             else:
-#                 exp_str += f", {s}"
-
-#     if not (exp_str[0] == "[" and exp_str[-1] == "]"):
-#         exp_str = "[" + exp_str + "]"
-
-#     exp_str = exp_str.replace("'*', '*'", "'**'")
-
-#     exp_str = list(eval(exp_str))
-#     print(exp_str)
-#     result = run_add_brackets_recursive(exp_str, 1)
-#     return result
-
-# if __name__ == "__main__":
-#     equation = "2+4*5**2-7"
-#     result = bracket_check_and_normalize(equation)
-#     print(result)
