@@ -1,6 +1,16 @@
+# Name: Lim Yu Yang Ian & Yadanar Aung
+# Admin No.: 2201874 & 2214621
+# Class: DAAA/FT/2B/07
+
+# -------------------------
+# Imports
+# -------------------------
 import re
 from Classes.stack import Stack
 
+# -------------------------
+# Bracketting Class
+# -------------------------
 class Bracketting():
     def __init__(self, exp, bracket_check):
         self.__exp = exp
