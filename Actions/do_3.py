@@ -5,10 +5,6 @@
 # -------------------------
 # Imports
 # -------------------------
-import re
-from Classes.stack import Stack
-from Classes.binaryTree import BinaryTree
-# from Classes.parseTree import buildParseTree, evaluate
 from Classes.parseTree import ParseTree
 import Classes.globalVars as globalVars
 
