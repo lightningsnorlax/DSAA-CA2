@@ -48,16 +48,16 @@ class BinaryTree:
 
     # L * R
     def printInorder(self, level): 
-        if self.leftTree != None:
-            self.leftTree.printInorder(level+1)
+        if self.rightTree != None:
+            self.rightTree.printInorder(level+1)
 
         if type(self.key) == float and int(self.key) == float(self.key):
             print(str(level*'.') + str(int(self.key)))
         else:
             print(str(level*'.') + str(self.key))
-        
-        if self.rightTree != None:
-            self.rightTree.printInorder(level+1)
+
+        if self.leftTree != None:
+            self.leftTree.printInorder(level+1)
 
     # L R *
     def printPostorder(self, level): 
