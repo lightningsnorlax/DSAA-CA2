@@ -26,6 +26,7 @@ class BinaryTree:
     def getRightTree(self):
         return self.rightTree
 
+    # Insert Left
     def insertLeft(self, key):
         if self.leftTree == None:
             self.leftTree = BinaryTree(key)
@@ -33,6 +34,7 @@ class BinaryTree:
             t = BinaryTree(key)
             self.leftTree , t.leftTree = t, self.leftTree
 	
+    # Insert Right
     def insertRight(self, key):
         if self.rightTree == None:
             self.rightTree = BinaryTree(key)
@@ -50,7 +52,7 @@ class BinaryTree:
         if self.rightTree != None:
             self.rightTree.printPreorder(level+1)
 
-    # L * R
+    # L * R -> adjusted to R * L
     def printInorder(self, level): 
         if self.rightTree != None:
             self.rightTree.printInorder(level+1)

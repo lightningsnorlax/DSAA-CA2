@@ -17,11 +17,14 @@ def main():
     
     # Initialize statementTable to be global to store assignment statements
     globalVars.initialize()
+
+    # Display Banner
     file = FileHandler(folder_path = 'Additional Resources')
-    # Banner
     for chunk in (file.readByLine("banner.txt")):
         print(chunk, end='')
     print("\n")
+
+    # Instantiate Controller
     controller = Controller()
     controller.run()
 
