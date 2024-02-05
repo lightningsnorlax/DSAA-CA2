@@ -21,8 +21,7 @@ def action():
     file = FileHandler(folder_path = 'Input')
 
     # Input File Validation
-    inputFile = General.validationTracking("Please enter input file: ",
-                                           lambda x: x.endswith(".txt"))
+    inputFile = General.validationTracking("Please enter input file: ", lambda x: x.endswith(".txt"))
 
     for line in file.readByLine(inputFile):
         if Bracketting(line, False).bracket_checking():

@@ -26,7 +26,7 @@ def action():
     printed = []
     
     file = FileHandler(folder_path = 'Output')
-    file.writeToFile(output_path, "")
+    file.writeToFile('Output', output_path, "")
     
     for key in globalVars.statementTable.getAllKeys():
         parseTree = ParseTree(key='?', exp=globalVars.statementTable[key])
@@ -41,9 +41,10 @@ def action():
             continue
 
         expressions = [(key, globalVars.statementTable[key]) for key, value in by_result.getAllItems() if value == result[1]]
-        file.appendToFile(output_path, f"*** Statements with value=> {result[1]}\n")
+        
+        file.appendToFile(output_folder_path = 'Output', output_file_name = output_path, msg = f"*** Statements with value=> {result[1]}\n")
         for key, expression in expressions:
-            file.appendToFile(output_path, f"{key}={expression}\n")
-        file.appendToFile(output_path, "\n")
+            file.appendToFile(output_folder_path = 'Output', output_file_name = output_path, msg = f"{key}={expression}\n")
+        file.appendToFile(output_folder_path = 'Output', output_file_name = output_path, msg = "\n")
 
         printed.append(result[1])
