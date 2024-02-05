@@ -41,8 +41,9 @@ def action():
             continue
 
         expressions = [(key, globalVars.statementTable[key]) for key, value in by_result.getAllItems() if value == result[1]]
-        
-        file.appendToFile(output_folder_path = 'Output', output_file_name = output_path, msg = f"*** Statements with value=> {result[1]}\n")
+        # Print value, removed leading zeros
+        file.appendToFile(output_folder_path = 'Output', output_file_name = output_path, msg = f"*** Statements with value=> {int(result[1]) if int(result[1]) == result[1] else result[1]}\n")
+        # Add corresponding variables with that value
         for key, expression in expressions:
             file.appendToFile(output_folder_path = 'Output', output_file_name = output_path, msg = f"{key}={expression}\n")
         file.appendToFile(output_folder_path = 'Output', output_file_name = output_path, msg = "\n")
