@@ -20,8 +20,12 @@ def mergeSort(l):
 
 		# Takes care of merging
 		mergeList = l
+
+		# Detemine if comparison of numbers or alphabets
+		is_numeric = all(isinstance(item, (int, float)) for item in mergeList)
+	
 		while leftIndex < len(leftHalf) and rightIndex < len(rightHalf):
-			if leftHalf[leftIndex] < rightHalf[rightIndex]:
+			if (leftHalf[leftIndex] < rightHalf[rightIndex] if is_numeric else leftHalf[leftIndex].lower() < rightHalf[rightIndex].lower()):
 				mergeList[mergeIndex] = leftHalf[leftIndex]
 				leftIndex+=1
 			else:
@@ -40,3 +44,5 @@ def mergeSort(l):
 			mergeList[mergeIndex] = rightHalf[rightIndex]
 			rightIndex+=1
 			mergeIndex+=1
+
+	return l

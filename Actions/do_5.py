@@ -33,6 +33,7 @@ def action():
         evaluation = parseTree.evaluateTree()
         by_result[key] = evaluation
 
+    # Sort according to the value of the key
     sorted_results = sorted(set(by_result.getAllItems()), key=lambda x: (float('-inf') if x[1] is None else x[1]), reverse=True)
 
     for result in sorted_results:

@@ -18,8 +18,7 @@ def action():
     print("\nCURRENT ASSIGNMENTS:\n********************")
 
     # Sort statements in alphabetical order, according to variable name (key)
-    sortedKeys = globalVars.statementTable.getAllKeys()
-    mergeSort.mergeSort(sortedKeys)
+    sortedKeys = mergeSort.mergeSort(globalVars.statementTable.getAllKeys())
 
     # Loop through all existing keyes in statementTable
     for key in sortedKeys:
