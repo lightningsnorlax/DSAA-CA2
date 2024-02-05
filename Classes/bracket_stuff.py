@@ -32,7 +32,7 @@ class Bracketting():
             for char in i:
                 new_pattern += f"\\{char}"
             new_pattern += "|"
-        new_pattern += r"\b[a-zA-Z_]+\b|\d+\.\d+|\d+)"
+        new_pattern += r"\d+\.\d+|\d+|\b\w+\b)"
         return new_pattern
     
     def __tokenize_expression(self, exp):

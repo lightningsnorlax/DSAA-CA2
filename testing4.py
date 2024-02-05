@@ -7,28 +7,22 @@ class Bracketting():
         self.__flag = True
         self.__operators = ["**", "*", "/", "+", "-"]
         self.__bracket_check = bracket_check
-        self.__pattern = self.__getPattern()
-
-    def __is_valid_decimal_or_variable_name(self, s):
-        if '.' in s:
-            return s.replace('.', '', 1).isdigit()
-        elif s.isalpha():
-            return True
-        return s.isdigit()
+        self.__pattern = self.getPattern()
     
-    def __getPattern(self):
+    def getPattern(self):
         new_pattern = r"(\(|\)|"
         for i in self.__operators:
             for char in i:
                 new_pattern += f"\\{char}"
             new_pattern += "|"
-        new_pattern += r"\b[a-zA-Z_]+\b|\d+\.\d+|\d+)"
+        new_pattern += r"\d+\.\d+|\d+|\b\w+\b)"
         print(new_pattern)
         return new_pattern
     
-    def __tokenize_expression(self, exp):
+    def tokenize_expression(self, exp):
         # Use regular expression to tokenize the expression
         tokens = re.findall(self.__pattern, exp.replace(" ", ""))
+        print(tokens)
         return tokens
     
         # Check that brackets match up accordingly, open and close brackets
@@ -51,16 +45,16 @@ class Bracketting():
         
         # Rule 2, every digit should be followed by an operator and then followed by a digit
         temp_exp = self.__exp.replace(" ", "").replace("(", "").replace(")", "")
-        tokens = self.__tokenize_expression(temp_exp)
+        tokens = self.tokenize_expression(temp_exp)
         print(tokens)
         flagging = True
         for i in tokens:
-            if self.__is_valid_decimal_or_variable_name(i):
+            if i.isdigit():
                 digit_count += 1
             elif i in self.__operators:
                 operator_count += 1
                 
-            if self.__is_valid_decimal_or_variable_name(i) and flagging:
+            if i.isdigit() and flagging:
                 flagging = False
             elif i in self.__operators and not flagging:
                 flagging = True
@@ -71,6 +65,13 @@ class Bracketting():
         if operator_count != digit_count - 1:
             return False
         
+        # # Rule 4, every bracket should have at least 1 operator and 2 digits
+        # if '(' in self.__exp and ')' in self.__exp:
+        #     if '()' in self.__exp:
+        #         return False
+            
+        #     for match in re.finditer(r'\(\D+|\D+\)', self.__exp):
+        #         return False
         return True
     
     def bracket_check_and_normalize(self, exp):
@@ -81,7 +82,7 @@ class Bracketting():
 
     def add_brackets(self, exp):
         operators = {"**": 3, "*": 2, "/": 2, "+": 1, "-": 1}
-        tokens = self.__tokenize_expression(exp)
+        tokens = self.tokenize_expression(exp)
 
         while len(tokens) > 1:
             operator_list = []
@@ -177,5 +178,5 @@ class Bracketting():
         return result
             
 if __name__ == "__main__":       
-    brackets = Bracketting("2.2+4*5**2-7+a", False)
-    print(brackets.bracket_checking())
+    brackets = Bracketting("((1+2.5) + (mango+2))", False)
+    brackets.tokenize_expression("(((((2.2+4)*5)**2)-7)+a)")
