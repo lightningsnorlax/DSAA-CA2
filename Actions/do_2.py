@@ -26,5 +26,8 @@ def action():
         # Create an instance of ParseTree
         parseTree = ParseTree(key = '?', exp = expression)
         evaluation = parseTree.evaluateTree()
+        if evaluation != None:
+            if int(evaluation) == evaluation:
+                evaluation = int(evaluation)
         # Print evaluation without leading zeros
-        print(f'{key}={expression}=> {int(evaluation) if int(evaluation) == evaluation else evaluation}')
+        print(f'{key}={expression}=> {int(evaluation) if evaluation != None and int(evaluation) == evaluation else evaluation}')
