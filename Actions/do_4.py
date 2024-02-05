@@ -27,6 +27,8 @@ def action():
         flag = True
         if len(line.split("=")) == 2 and line.split("=")[0].isalpha() and Bracketting(line.split("=")[1], globalVars.brackets_check).bracket_checking():
             variableName, expression = line.split("=")
+            if globalVars.brackets_check:
+                expression = Bracketting(expression, globalVars.brackets_check).parsing_exp()
             globalVars.statementTable[variableName] = expression         
         else:
             print("Invalid expression:", line)
