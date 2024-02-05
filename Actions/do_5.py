@@ -20,7 +20,7 @@ def action():
     # By their value (in descending order), followed by alphabetically order by variable name
     # Sorted results will be written back to an output file
 
-    output_path = General.validationTracking("Please enter output file: ", lambda x: x.endswith(".txt"))
+    output_path = General.validationTracking("\nPlease enter output file: ", lambda x: x.endswith(".txt"))
 
     by_result = HashTable(size=100)
     printed = []

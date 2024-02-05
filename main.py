@@ -22,7 +22,7 @@ def main():
     for chunk in (file.readByLine("banner.txt")):
         print(chunk, end='')
     print("\n")
-
+    
     # Instantiate Controller
     controller = Controller()
     controller.run()
