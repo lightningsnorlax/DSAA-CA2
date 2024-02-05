@@ -39,8 +39,8 @@ class FileHandler:
             return None
 
     # Write to File
-    def writeToFile(self, output_folder_path, output_file_name, msg):
-        file_path = os.path.join(output_folder_path, output_file_name)
+    def writeToFile(self, output_file_name, msg):
+        file_path = os.path.join(self.__folder_path, output_file_name)
         try:
             with open(file_path, 'w') as file:
                 file.write(msg) # write to new txt file

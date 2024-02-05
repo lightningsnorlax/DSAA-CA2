@@ -17,7 +17,10 @@ def action():
 
     # Get user input for an assignment statement    
     statement = General.validationTracking("Enter the assignment statement you want to add/modify:\nFor example, a=(1+2)\n",
-                                           lambda x: (len(x.split("=")) == 2 and (x.split("="))[0].isalpha()) and Bracketting(x.split("=")[1], False).bracket_checking(),
-                                           output="error, Ya entered smt wrong m8")
+                                           lambda x: (len(x.split("=")) == 2 and (x.split("="))[0].isalpha()) and Bracketting(x.split("=")[1], globalVars.brackets_check).bracket_checking(),
+                                           output="Invalid Expression")
     variableName, expression = statement.split("=")
+    if globalVars.brackets_check:
+        expression = Bracketting(expression, globalVars.brackets_check).parsing_exp()
+    
     globalVars.statementTable[variableName] = expression

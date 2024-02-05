@@ -79,17 +79,21 @@ class Bracketting():
         if operator_count != digit_count - 1:
             return False
         
-        return True
-    
-    def bracket_check_and_normalize(self, exp):
-        if not self.bracket_checking(exp):
+        # Bracket checking
+        bracketted = self.parsing_exp()
+        if bracketted == "error":
             return False
-        result = self.parsing_exp(exp)
-        return result
+        
+        if not self.__bracket_check:
+            if bracketted != self.__exp.replace(" ", ""):
+                return False
+        
+        return True
 
-    def add_brackets(self, exp):
+    def __add_brackets(self, exp):
         operators = {"**": 3, "*": 2, "/": 2, "+": 1, "-": 1}
         tokens = self.__tokenize_expression(exp)
+        
 
         while len(tokens) > 1:
             operator_list = []
@@ -116,70 +120,130 @@ class Bracketting():
 
         return tokens[0]
 
+    # # recursive function to look at every layer of list, to bracket (calls add_bracket function)
+    # def run_add_brackets_recursive(self, lst, level):
+    #     result = ""
+    #     temp = ""
+    #     count = 0
+    #     for i, item in enumerate(lst):
+            
+    #         # If a list, recursive
+    #         if isinstance(item, list):
+    #             if count % 2 != 0 and count >= 3:
+    #                 result += self.add_brackets(temp)
+    #             elif count >= 3:
+    #                 if temp[0].isnumeric():
+    #                     result += self.add_brackets(temp[:-1])
+    #                     result += temp[-1]
+    #                 elif temp[-1].isnumeric():
+    #                     result += temp[1]
+    #                     result += self.add_brackets(temp[1:])
+                    
+    #             else:
+    #                 result += temp
+    #             temp = ""
+    #             count = 0
+    #             result += self.run_add_brackets_recursive(lst[i], level + 1)
+                
+    #         else:
+    #             temp += item
+    #             count += 1
+                
+    #     # If no lists
+    #     if level == 1 and len(result) != 0 and result[0] != "(":
+    #         result = "(" + result + ")"
+            
+    #     if count % 2 != 0 and count >= 3:
+    #         result += self.add_brackets(temp)  
+    #     else:
+    #         result += temp  # Move this line here
+            
+    #     if level == 1 and result[-1] != ")":
+    #         result = "(" + result + ")"
+    #     print(result, lst)
+    #     return result
+
     # recursive function to look at every layer of list, to bracket (calls add_bracket function)
-    def run_add_brackets_recursive(self, lst, level):
+    def __run_add_brackets_recursive(self, lst, level):
         result = ""
         temp = ""
         count = 0
+        added_flag = False
+        error_flag = False
         for i, item in enumerate(lst):
             
             # If a list, recursive
             if isinstance(item, list):
+                
                 if count % 2 != 0 and count >= 3:
-                    result += self.add_brackets(temp)
+                    result += self.__add_brackets(temp)
                 elif count >= 3:
                     if temp[0].isnumeric():
-                        result += self.add_brackets(temp[:-1])
+                        result += self.__add_brackets(temp[:-1])
                         result += temp[-1]
+                        added_flag = True
                     elif temp[-1].isnumeric():
                         result += temp[1]
-                        result += self.add_brackets(temp[1:])
+                        result += self.__add_brackets(temp[1:])
+                        added_flag = True
                     
                 else:
                     result += temp
+                if len(item) < 3:
+                    error_flag = True
                 temp = ""
                 count = 0
-                result += self.run_add_brackets_recursive(lst[i], level + 1)
+                returnResult = self.__run_add_brackets_recursive(lst[i], level + 1)
+                if returnResult == "error":
+                    error_flag = True
+                else:
+                    result += returnResult
                 
             else:
                 temp += item
                 count += 1
                 
-        # If no lists
-        if level == 1 and len(result) != 0 and result[0] != "(":
-            result = "(" + result + ")"
-            
-        if count % 2 != 0 and count >= 3:
-            result += self.add_brackets(temp)  
+        # If no lists   
+        if count % 2 != 0 and count >= 3 and not error_flag:
+            result += self.__add_brackets(temp)  
+            added_flag = True
         else:
             result += temp  # Move this line here
-            
-        if level == 1 and result[-1] != ")":
+        
+        if not added_flag:
+            result = "(" + result + ")"
+        
+        if level == 1 and len(result) != 0 and result[0] != "(":
             result = "(" + result + ")"
 
+        # if level == 1 and result[-1] != ")":
+        #     print("adding final", result)
+        #     result = "(" + result + ")"
+
+        if error_flag:
+            result = "error"
         return result
 
-    # turns brackets into list
     def parsing_exp(self):
-        temp_exp = self.__exp.replace("(", "[").replace(")", "]")
-        exp_str = ""
-        for index, i in enumerate(temp_exp):
-            if i != " ":
-                if i == "[" or i == "]":
-                    s = i
+        tokens = self.__tokenize_expression(self.__exp)
+        exp_str = " "
+        for token in tokens:
+            if token != " ":
+                if token == "(":
+                    s = "["
+                elif token == ")":
+                    s = "]"
                 else:
-                    s = f"'{i}'"
-                if len(exp_str) == 0 or (len(exp_str) > 0 and temp_exp[index-1] == "[") or i == "]":
+                    s = f"'{token}'"
+
+                if ((token == "(" )and exp_str[-1] in ["(", ")"] or token == ")") or (exp_str[-1] == "[" or exp_str[-1] == " "):
                     exp_str += f"{s}"
                 else:
                     exp_str += f", {s}"
 
-        if not (exp_str[0] == "[" and exp_str[-1] == "]"):
-            exp_str = "[" + exp_str + "]"
-
-        exp_str = exp_str.replace("'*', '*'", "'**'")
-
+        if not (exp_str[1] == "[" and exp_str[-1] == "]"):
+            exp_str = "[" + exp_str[1:] + "]"
         exp_str = list(eval(exp_str))
-        print(exp_str)
-        result = self.run_add_brackets_recursive(exp_str, 1)
+
+        result = self.__run_add_brackets_recursive(exp_str, 1)
         return result

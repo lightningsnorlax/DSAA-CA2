@@ -14,6 +14,7 @@ from Classes.fileHandler import FileHandler
 # -------------------------
 def main():
     
+    
     # Initialize statementTable to be global to store assignment statements
     globalVars.initialize()
 

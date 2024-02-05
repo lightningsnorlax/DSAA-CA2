@@ -12,5 +12,6 @@ from Classes.hashTable import HashTable
 # -------------------------
 # Purpose is to make the Hash Table, statementTable, global
 def initialize(): 
-    global statementTable
+    global statementTable, brackets_check
     statementTable = HashTable(15) # Instantiate a Hash Table to store assignment statements
+    brackets_check = False

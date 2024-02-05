@@ -24,9 +24,10 @@ def action():
     inputFile = General.validationTracking("Please enter input file: ", lambda x: x.endswith(".txt"))
 
     for line in file.readByLine(inputFile):
-        if Bracketting(line, False).bracket_checking():
+        flag = True
+        if len(line.split("=")) == 2 and line.split("=")[0].isalpha() and Bracketting(line.split("=")[1], globalVars.brackets_check).bracket_checking():
             variableName, expression = line.split("=")
-            globalVars.statementTable[variableName] = expression
+            globalVars.statementTable[variableName] = expression         
         else:
             print("Invalid expression:", line)
 

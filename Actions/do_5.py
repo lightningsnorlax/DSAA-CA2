@@ -26,7 +26,7 @@ def action():
     printed = []
     
     file = FileHandler(folder_path = 'Output')
-    file.writeToFile('Output', output_path, "")
+    file.writeToFile(output_path, "")
     
     for key in globalVars.statementTable.getAllKeys():
         parseTree = ParseTree(key='?', exp=globalVars.statementTable[key])
@@ -43,7 +43,7 @@ def action():
 
         expressions = [(key, globalVars.statementTable[key]) for key, value in by_result.getAllItems() if value == result[1]]
         # Print value, removed leading zeros
-        file.appendToFile(output_folder_path = 'Output', output_file_name = output_path, msg = f"*** Statements with value=> {int(result[1]) if int(result[1]) == result[1] else result[1]}\n")
+        file.appendToFile(output_folder_path = 'Output', output_file_name = output_path, msg = f"*** Statements with value=> {int(result[1]) if result[1]!= None and int(result[1]) == result[1] else result[1]}\n")
         # Add corresponding variables with that value
         for key, expression in expressions:
             file.appendToFile(output_folder_path = 'Output', output_file_name = output_path, msg = f"{key}={expression}\n")
