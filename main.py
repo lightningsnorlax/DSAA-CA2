@@ -20,7 +20,7 @@ def main():
     # Display Banner
     file = FileHandler(folder_path = 'Additional Resources')
     for chunk in (file.readByLine("banner.txt")):
-        print(chunk, end='')
+        print(chunk)
     print("\n")
     
     # Instantiate Controller
