@@ -82,7 +82,7 @@ class ParseTree(BinaryTree):
 		return self.__evaluate(tree)
 	
 	def __evaluate(self, tree):
-		# Source Credits: https://runestone.academy/ns/books/published/pythonds/Trees/ParseTree.html
+		# Referenced Source Credits: https://runestone.academy/ns/books/published/pythonds/Trees/ParseTree.html
 		operators = {'+' : operator.add, '-' : operator.sub, '*' : operator.mul, '/' : operator.truediv, '**' : operator.pow}
 		
 		leftTree = tree.getLeftTree()
@@ -111,7 +111,7 @@ class ParseTree(BinaryTree):
 		except:
 			return None
 
-	def drawParseTree(self):
+	def drawParseTree(self, variableName):
 		# Function to get the node value at the clicked position
 		def get_clicked_node_value(x, y, tree):
 			# Function to calculate the Euclidean distance between two points
@@ -162,60 +162,64 @@ class ParseTree(BinaryTree):
 		
 		def _on_screen_click(x, y, tree):
 			node_value = get_clicked_node_value(x, y, tree)
-			print(f"Clicked on node with value: {node_value}")
-			print(f"Screen clicked at coordinates ({x}, {y})")
-			
-            # You can implement redirection logic or any other action here
-			# Get expression of new node_value
-			node_expression = globalVars.statementTable[node_value]
-			next_parseTree = ParseTree(key='?', exp=node_expression)
-			draw_string = _convertToDrawString(next_parseTree.__buildParseTree())
+			try:
+				if str(node_value).isalpha():
+					expression = globalVars.statementTable[node_value]
+				
+					# Instantiate ParseTree
+					parseTree = ParseTree(key='?', exp=expression)
+					# Draw ParseTree
+					parseTree.drawParseTree(node_value)
+			except:
+				pass
 
-			# Lift the pen
-			t.penup()
-			
-			# You can set a new starting position based on the clicked node's value
-			# For example, you might want to offset it from the clicked node's position
-			new_starting_x = x
-			new_starting_y = y
-			print(new_starting_x, new_starting_y)
-
-			_draw(next_parseTree, new_starting_x, new_starting_y, 35 * 2)
-		
 		# Draw
-		def _draw(node, x, y, dx):
+		def _draw(node, x, y, dx, forward_color='blue', backward_color='red'):
 			if node:
 				t.goto(x, y)
 				t.penup()
-				t.goto(x, y-20)
+				t.goto(x, y - 20)
 				t.pendown()
 
-				t.write(str(node.key), align='center', font=('Arial', 12, 'bold'))
+				if str(node.key).isalpha():
+					tree = ParseTree(key='?', exp=globalVars.statementTable[str(node.key)])
+					evaluation = tree.evaluateTree()
+					text = f'{node.key} = {evaluation}'
+				else:
+					text = str(node.key)
+
+				t.pencolor(forward_color)
+				t.write(text, align='center', font=('Arial', 12, 'bold'))
 
 				# Add the position attribute to the node for later use
 				node.position = (x, y)
 
-				_draw(node.leftTree, x-dx, y-60, dx)
+				_draw(node.leftTree, x - dx, y - 60, dx, forward_color = 'blue', backward_color = 'orange')
 
 				t.penup()
-				t.goto(x, y-20)
+				t.goto(x, y - 20)
 				t.pendown()
-				
-				_draw(node.rightTree, x+dx, y-60, dx)
+
+				_draw(node.rightTree, x + dx, y - 60, dx, forward_color = 'blue', backward_color = 'green')
+
+				# Draw backward after drawing the tree forward
+				t.penup()
+				t.goto(x, y - 20)
+				t.pencolor(backward_color)
+				t.pendown()
+				t.backward(20)  # Adjust this value as needed
 
 		draw_string = _convertToDrawString(self.__buildParseTree())
 
 		# Set up turtle window with a minimum width and height
-		min_width = 300
-		min_height = 300
-		turtle_width = max(len(draw_string) * 10, min_width) # Adjust factor accordingly
-		turtle_height = max(300, min_height)
+		turtle_width = max(len(draw_string) * 10, 300) # Adjust factor accordingly
+		turtle_height = 300
 
 		# Referenced Source Code Credits: https://stackoverflow.com/questions/14730475/python-turtle-window-with-scrollbars
 		# Set up Tkinter window
 		root = tk.Tk()
+		root.geometry(f'{turtle_width}x{turtle_height}-5+50')  # Move window position to left end of PC screen
 
-		root.geometry(f'{turtle_width}x{turtle_height}-5+40')  # Adjust window size and position as needed
 		cv = turtle.ScrolledCanvas(root, width=900, height=900)
 		cv.pack()
 
@@ -224,11 +228,21 @@ class ParseTree(BinaryTree):
 
 		t = turtle.RawTurtle(screen)
 		t.hideturtle()
-		t.speed(0)
+		t.speed(1)
+		t.pensize(3)
+
 		t.penup()
-		t.goto(0, 30 * 2)
-		print(self)
-		_draw(self, 0, 30 * 2, 35 * 2)
+		t.goto(0, 70)
+		t.pendown()
+		t.color('red')
+		tree = ParseTree(key='?', exp=globalVars.statementTable[variableName])
+		evaluation = tree.evaluateTree()
+		t.write(f'{variableName} = {evaluation}', align='center', font=('Arial', 15, 'bold'))
+		
+		t.penup()
+		t.color('black')
+		# Commence drawing
+		_draw(self, 0, 30 * 2, 35 * 2, forward_color='blue', backward_color='red')
 
 		# Bind the click event to the screen using a lambda function
 		screen.onclick(functools.partial(_on_screen_click, tree=self))

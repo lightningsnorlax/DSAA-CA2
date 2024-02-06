@@ -14,6 +14,13 @@ import Classes.globalVars as globalVars
 def action():
     "Visualize assignment statement as Parse Tree"
 
+    print("""
+    ******************************************************************
+    |        ~ Note: This is an Interactive Visualization ~          |
+    |       ------------------------------------------------         |
+    |       Click on Variable Nodes to view their parse tree         |
+    ******************************************************************
+    """)
     print("Please enter the variable you want to visualize as a Parse Tree: ")
     user_input = input()
 
@@ -25,7 +32,7 @@ def action():
         # Instantiate ParseTree
         parseTree = ParseTree(key='?', exp=expression)
         # Draw ParseTree
-        parseTree.drawParseTree()
+        parseTree.drawParseTree(variableName = user_input)
     else:
-        ## User requested variable does not exist
+        # User requested variable does not exist
         print(f"Variable {user_input} does not exist in the current assignment statements")
