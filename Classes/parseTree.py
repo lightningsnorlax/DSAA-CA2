@@ -122,9 +122,10 @@ class ParseTree(BinaryTree):
 					# Check if it is a variable name
 					if tree.getKey().isalpha():
 						variableName = tree.getKey()
-						# Check if it is nothing
+						# Check if it is self callin
 						if variableName == self.__ref_key:
 							return None
+							
 						# Check if it is an existing variable name in statementTable
 						if variableName in globalVars.statementTable.getAllKeys():
 							expression = globalVars.statementTable[variableName]

@@ -24,6 +24,8 @@ def action():
     if globalVars.brackets_check:
         expression = Bracketting(expression, globalVars.brackets_check).parsing_exp()
         
+    globalVars.statementTable[variableName] = expression
+
     if globalVars.smart_cache_check:
         SmartCaching(globalVars.smart_cache_check, expression, variableName).smart_cache()
 
