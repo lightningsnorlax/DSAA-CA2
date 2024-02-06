@@ -1,3 +1,10 @@
+# Name: Lim Yu Yang Ian & Yadanar Aung
+# Admin No.: 2201874 & 2214621
+# Class: DAAA/FT/2B/07
+
+# -------------------------
+# Imports
+# -------------------------
 import Classes.globalVars as globalVars
 from Classes.bracket_stuff import Bracketting
 from Classes.parseTree import ParseTree
@@ -19,8 +26,10 @@ class SmartCaching:
         else:
             globalVars.reverseReferenceTable[self.__var] = [token]
             
-    def __output_table_add(self, token):
-        globalVars.outputTable[self.__var] = [token]
+    def __output_table_add(self, eval):
+        globalVars.outputTable[self.__var] = eval
+        print(eval, self.__var)
+        print(globalVars.outputTable.getAllItems())
         
     
     def smart_cache(self):
@@ -49,32 +58,16 @@ class SmartCaching:
         if evaluation != None:
             if int(evaluation) == evaluation:
                 evaluation = int(evaluation)
+        
         self.__output_table_add(evaluation)
         
     def __update_output(self):
+        print("updating output\n\n", self.__var)
         items = globalVars.referenceTable[self.__var]
         for item in items:
-            print(globalVars.statementTable[item], item)
             self.__add_output(globalVars.statementTable[item], item)
             
     def __update_references(self):
+        print("updating references")
         for ref in globalVars.reverseReferenceTable[self.__var]:
             globalVars.referenceTable[ref].remove(self.__var)
-
-if __name__ == "__main__":
-    globalVars.initialize()
-    globalVars.statementTable["a"] = ("(1+c)")
-    globalVars.statementTable["b"] = ("(1+1)")
-    globalVars.statementTable["c"] = ("(1+b)")
-    globalVars.statementTable["d"] = ("(1+a)")
-    globalVars.statementTable["e"] = ("(1+a)")
-    for i in globalVars.statementTable.getAllItems():
-        smarts = SmartCaching(globalVars.smart_cache_check, i[1], i[0])
-        smarts.smart_cache()
-    print(globalVars.referenceTable.getAllItems())
-    print(globalVars.outputTable.getAllItems())
-    globalVars.statementTable["e"] = ("(1+b)")
-    smarts = SmartCaching(globalVars.smart_cache_check,"(1+b)", "e")
-    smarts.smart_cache()
-    print(globalVars.referenceTable.getAllItems())
-    print(globalVars.outputTable.getAllItems())

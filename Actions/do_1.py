@@ -8,6 +8,7 @@
 import Classes.globalVars as globalVars
 from Classes.general import General
 from Classes.bracket_stuff import Bracketting
+from Classes.smartCaching import SmartCaching
 
 # -------------------------
 # Action Function
@@ -22,5 +23,8 @@ def action():
     variableName, expression = statement.split("=")
     if globalVars.brackets_check:
         expression = Bracketting(expression, globalVars.brackets_check).parsing_exp()
+        
+    if globalVars.smart_cache_check:
+        SmartCaching(globalVars.smart_cache_check, expression, variableName).smart_cache()
     
     globalVars.statementTable[variableName] = expression

@@ -26,6 +26,7 @@ def main():
     # Instantiate Controller
     controller = Controller()
     controller.run()
+    print("\nBye, thanks for using ST1507 DSAA: Assignment Statement Evaluator & Sorter")
 
 # -------------------------
 # Main Program

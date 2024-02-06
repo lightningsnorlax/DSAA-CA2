@@ -15,7 +15,7 @@ from Classes.parseTree import ParseTree
 def action():
     "Display current assignment statements"
 
-    print("\nCURRENT ASSIGNMENTS:\n********************")
+    print("\nCURRENT ASSIGNMENTS:\n**")
 
     # Sort statements in alphabetical order, according to variable name (key)
     sortedKeys = mergeSort.mergeSort(globalVars.statementTable.getAllKeys())
@@ -23,11 +23,15 @@ def action():
     # Loop through all existing keyes in statementTable
     for key in sortedKeys:
         expression = globalVars.statementTable[key]
-        # Create an instance of ParseTree
-        parseTree = ParseTree(key = '?', exp = expression)
-        evaluation = parseTree.evaluateTree(ref_key=key)
-        if evaluation != None:
-            if int(evaluation) == evaluation:
-                evaluation = int(evaluation)
-        # Print evaluation without leading zeros
-        print(f'{key}={expression}=> {int(evaluation) if evaluation != None and int(evaluation) == evaluation else evaluation}')
+        if globalVars.smart_cache_check:
+            evaluation = globalVars.outputTable[key]
+            print(f'{key}={expression}=> {int(evaluation) if evaluation != None and int(evaluation) == evaluation else evaluation}')
+        else:
+            # Create an instance of ParseTree
+            parseTree = ParseTree(key = '?', exp = expression, ref_key=key)
+            evaluation = parseTree.evaluateTree()
+            if evaluation != None:
+                if int(evaluation) == evaluation:
+                    evaluation = int(evaluation)
+            # Print evaluation without leading zeros
+            print(f'{key}={expression}=> {int(evaluation) if evaluation != None and int(evaluation) == evaluation else evaluation}')

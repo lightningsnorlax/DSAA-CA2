@@ -40,6 +40,9 @@ class Bracketting():
         tokens = re.findall(self.__pattern, exp.replace(" ", ""))
         return tokens
     
+    def return_tokens(self):
+        return self.__tokenize_expression(self.__exp)
+    
         # Check that brackets match up accordingly, open and close brackets
     def bracket_checking(self):
         

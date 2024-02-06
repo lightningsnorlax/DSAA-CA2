@@ -89,7 +89,6 @@ class Controller(Stack):
         # If user chooses the 'Exit' Option
         elif user_input == str(len(current_modules) + 1):
             self.pop()
-            print("\nBye, thanks for using ST1507 DSAA: Assignment Statement Evaluator & Sorter")
         else:
             try:
                 module = self.import_module(filePath[len(folderPath) + 1:])

@@ -10,4 +10,4 @@
 # Action Function
 # -------------------------
 def action():
-    "Smart Caching"
+    "Compare speeds of Smart Caching"

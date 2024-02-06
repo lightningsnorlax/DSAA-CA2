@@ -10,6 +10,7 @@ import Actions.do_2 as do_2
 from Classes.fileHandler import FileHandler
 from Classes.general import General
 from Classes.bracket_stuff import Bracketting
+from Classes.smartCaching import SmartCaching
 
 # -------------------------
 # Action Function
@@ -29,7 +30,9 @@ def action():
             variableName, expression = line.split("=")
             if globalVars.brackets_check:
                 expression = Bracketting(expression, globalVars.brackets_check).parsing_exp()
-            globalVars.statementTable[variableName] = expression         
+            globalVars.statementTable[variableName] = expression     
+            if globalVars.smart_cache_check:
+                SmartCaching(globalVars.smart_cache_check, expression, variableName).smart_cache()
         else:
             print("Invalid expression:", line)
 

@@ -20,9 +20,10 @@ import functools
 class ParseTree(BinaryTree):
 
 	# Constructor Function
-	def __init__(self, key='?', exp = None, leftTree=None, rightTree=None):
+	def __init__(self, key='?', exp = None, leftTree=None, rightTree=None, ref_key=None):
 		super().__init__(key, leftTree, rightTree)
 		self.exp = exp
+		self.__ref_key = ref_key
 
 	def __buildParseTree(self):
 		# Tokenize Expression
@@ -76,11 +77,11 @@ class ParseTree(BinaryTree):
 			
 		return tree
 
-	def evaluateTree(self, ref_key):
+	def evaluateTree(self):
 		tree = self.__buildParseTree()
-		return self.__evaluate(tree, ref_key)
+		return self.__evaluate(tree)
 	
-	def __evaluate(self, tree, ref_key):
+	def __evaluate(self, tree):
 		# Source Credits: https://runestone.academy/ns/books/published/pythonds/Trees/ParseTree.html
 		operators = {'+' : operator.add, '-' : operator.sub, '*' : operator.mul, '/' : operator.truediv, '**' : operator.pow}
 		
@@ -96,7 +97,7 @@ class ParseTree(BinaryTree):
 					# Check if it is a variable name
 					if tree.getKey().isalpha():
 						variableName = tree.getKey()
-						if variableName == ref_key:
+						if variableName == self.__ref_key:
 							return None
 						# Check if it is an existing variable name in statementTable
 						if variableName in globalVars.statementTable.getAllKeys():
@@ -163,7 +164,23 @@ class ParseTree(BinaryTree):
 			node_value = get_clicked_node_value(x, y, tree)
 			print(f"Clicked on node with value: {node_value}")
 			print(f"Screen clicked at coordinates ({x}, {y})")
+			
             # You can implement redirection logic or any other action here
+			# Get expression of new node_value
+			node_expression = globalVars.statementTable[node_value]
+			next_parseTree = ParseTree(key='?', exp=node_expression)
+			draw_string = _convertToDrawString(next_parseTree.__buildParseTree())
+
+			# Lift the pen
+			t.penup()
+			
+			# You can set a new starting position based on the clicked node's value
+			# For example, you might want to offset it from the clicked node's position
+			new_starting_x = x
+			new_starting_y = y
+			print(new_starting_x, new_starting_y)
+
+			_draw(next_parseTree, new_starting_x, new_starting_y, 35 * 2)
 		
 		# Draw
 		def _draw(node, x, y, dx):
@@ -210,6 +227,7 @@ class ParseTree(BinaryTree):
 		t.speed(0)
 		t.penup()
 		t.goto(0, 30 * 2)
+		print(self)
 		_draw(self, 0, 30 * 2, 35 * 2)
 
 		# Bind the click event to the screen using a lambda function
