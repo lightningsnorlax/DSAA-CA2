@@ -76,11 +76,11 @@ class ParseTree(BinaryTree):
 			
 		return tree
 
-	def evaluateTree(self):
+	def evaluateTree(self, ref_key):
 		tree = self.__buildParseTree()
-		return self.__evaluate(tree)
+		return self.__evaluate(tree, ref_key)
 	
-	def __evaluate(self, tree):
+	def __evaluate(self, tree, ref_key):
 		# Source Credits: https://runestone.academy/ns/books/published/pythonds/Trees/ParseTree.html
 		operators = {'+' : operator.add, '-' : operator.sub, '*' : operator.mul, '/' : operator.truediv, '**' : operator.pow}
 		
@@ -96,6 +96,8 @@ class ParseTree(BinaryTree):
 					# Check if it is a variable name
 					if tree.getKey().isalpha():
 						variableName = tree.getKey()
+						if variableName == ref_key:
+							return None
 						# Check if it is an existing variable name in statementTable
 						if variableName in globalVars.statementTable.getAllKeys():
 							expression = globalVars.statementTable[variableName]

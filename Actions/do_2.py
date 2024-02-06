@@ -25,7 +25,7 @@ def action():
         expression = globalVars.statementTable[key]
         # Create an instance of ParseTree
         parseTree = ParseTree(key = '?', exp = expression)
-        evaluation = parseTree.evaluateTree()
+        evaluation = parseTree.evaluateTree(ref_key=key)
         if evaluation != None:
             if int(evaluation) == evaluation:
                 evaluation = int(evaluation)
