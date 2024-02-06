@@ -8,7 +8,6 @@
 import os
 import importlib
 from Classes.stack import Stack
-from Classes.general import General
 
 # Set Folder Path to access files to perform the respective menu option's actions
 folderPath = "Actions"
@@ -37,26 +36,11 @@ class Controller(Stack):
         module_name = file[:-3]
         return importlib.import_module(f"{folderPath}.{module_name}")
 
-    # def recursive_test(self, files):
-    #     for file in files:
-    #         if file not in self.__finished_modules:
-    #             module = self.import_module(file)
-                
-    #             sub_level_module_file = f"do_{file[3:-3]}_1.py"
-
-    #             if sub_level_module_file in files:
-    #                 self.recursive_test(list(filter(lambda x: x.startswith(f"{file[:-3]}_"), files)))
-
-    #             else:
-    #                 self.__finished_modules.append(file)
-    #                 print(module.action.__doc__)
-    #                 module.action()
-
     def generate_menu(self):
         # Get current existing modules from 'Action' Folder
         current_modules = list(filter(lambda x: x.startswith(self.__str__()) and (len(x.replace(self.__str__(), "").split('_')) <= 1), self.__modules))
 
-        print(f"\nPlease select your choice ('{"','".join([str(num) for num in list(range(1, len(current_modules) + 2))])}'):")
+        print("\nPlease select your choice ('{}'): ".format("','".join(map(str, range(1, len(current_modules) + 2)))))
         # Print Menu Options
         print("\n".join([f"\t{i+1}. {self.import_module(module).action.__doc__}" for i, module in enumerate(current_modules)]))
         if self.__str__() == "do_":
@@ -99,3 +83,19 @@ class Controller(Stack):
                 print("Method not found")
             except ModuleNotFoundError:
                 print("Module not found")
+
+    # This method is for reference, to guide us through the concept of this controller.py file
+    # def recursive_test(self, files):
+    #     for file in files:
+    #         if file not in self.__finished_modules:
+    #             module = self.import_module(file)
+                
+    #             sub_level_module_file = f"do_{file[3:-3]}_1.py"
+
+    #             if sub_level_module_file in files:
+    #                 self.recursive_test(list(filter(lambda x: x.startswith(f"{file[:-3]}_"), files)))
+
+    #             else:
+    #                 self.__finished_modules.append(file)
+    #                 print(module.action.__doc__)
+    #                 module.action()
