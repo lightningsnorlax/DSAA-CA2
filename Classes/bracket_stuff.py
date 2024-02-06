@@ -21,10 +21,17 @@ class Bracketting():
         self.__bracket_check = bracket_check
         self.__pattern = self.__getPattern()
 
+    # Checing for valid string
     def __is_valid_decimal_or_variable_name(self, s):
+
+        # Check for decimal
         if '.' in s:
             return s.replace('.', '', 1).isdigit()
+        
+        # Check for variable names
         elif s.isalpha():
+
+            # Ensuring variable name is not reserved
             if len(s) == 3 and s[:3] in ["sin", "cos", "tan"]:
                 return False
             elif len(s) == 3 and s[:3] in ["log"]:
@@ -33,6 +40,7 @@ class Bracketting():
                 return False
             else:
                 return True
+            
         # Check for sin cos tan
         elif len(s) == 5 and s[:3] in ["sin", "cos", "tan"] and s[3:].isdigit() and int(s[3:]) in [0, 30, 45, 60] and globalVars.trigo_check:
             return True
@@ -43,8 +51,11 @@ class Bracketting():
         elif len(s) >= 4 and s[:3] == "log" and s[3:].isdigit() and globalVars.logarithm_check:
             print(s)
             return True
+        
+        # Checks for digits
         return s.isdigit()
     
+    # Dynamically creating pattern based on operators. Will accept all operators, integers, floats, and variable names
     def __getPattern(self):
         new_pattern = r"(\(|\)|"
         for i in self.__operators:
@@ -54,11 +65,13 @@ class Bracketting():
         new_pattern += r"\d+\.\d+|\d+|\b\w+\b)"
         return new_pattern
     
+    # Tokenizing
     def __tokenize_expression(self, exp):
         # Use regular expression to tokenize the expression
         tokens = re.findall(self.__pattern, exp.replace(" ", ""))
         return tokens
     
+    # To tokenize self
     def return_tokens(self):
         return self.__tokenize_expression(self.__exp)
     
@@ -116,6 +129,7 @@ class Bracketting():
         
         return True
 
+    # Adding brackets to an equation with no brackets
     def __add_brackets(self, exp):
         operators = {"**": 3, "*": 2, "/": 2, "+": 1, "-": 1}
         tokens = self.__tokenize_expression(exp)
@@ -146,7 +160,6 @@ class Bracketting():
         while operator_stack:
             operand_stack.append(apply_operator(operand_stack, operator_stack.pop()))
 
-        # The result is the only element left in the operand stack
         return operand_stack[0]
 
     # recursive function to look at every layer of list, to bracket (calls add_bracket function)
@@ -164,6 +177,7 @@ class Bracketting():
                 if count % 2 != 0 and count >= 3:
                     result += self.__add_brackets(temp)
                 elif count >= 3:
+                    # Checking whether operator and number is to the left or right of bracket
                     if temp[0].isnumeric():
                         result += self.__add_brackets(temp[:-1])
                         result += temp[-1]
@@ -175,6 +189,8 @@ class Bracketting():
                     
                 else:
                     result += temp
+
+                # If list is less thatn 3 in length, error
                 if len(item) < 3:
                     error_flag = True
                 temp = ""
@@ -183,7 +199,7 @@ class Bracketting():
                 # Calling recursively
                 returnResult = self.__run_add_brackets_recursive(lst[i], level + 1)
 
-                # Error handling
+                # Error handling to just pass if error
                 if returnResult == "error":
                     error_flag = True
                 else:
@@ -214,6 +230,7 @@ class Bracketting():
     # Parsing the expression
     def parsing_exp(self):
         tokens = self.__tokenize_expression(self.__exp)
+        # Turns string into python list
         exp_str = " "
         for token in tokens:
             if token != " ":

@@ -24,6 +24,7 @@ class Controller(Stack):
         self.__finished_modules = []
         self.__initialize_modules()
 
+    # Set up modules
     def __initialize_modules(self):
         self.push("do_")
 
@@ -32,10 +33,12 @@ class Controller(Stack):
                 self.__modules.append(file)
         self.__modules.sort()
 
+    # Importing the action from file
     def __import_module(self, file):
         module_name = file[:-3]
         return importlib.import_module(f"{folderPath}.{module_name}")
 
+    # Dynamic menu generation
     def __generate_menu(self):
         # Get current existing modules from 'Action' Folder
         current_modules = list(filter(lambda x: x.startswith(self.__str__()) and (len(x.replace(self.__str__(), "").split('_')) <= 1), self.__modules))
@@ -43,12 +46,15 @@ class Controller(Stack):
         print("\nPlease select your choice ('{}'): ".format("','".join(map(str, range(1, len(current_modules) + 2)))))
         # Print Menu Options
         print("\n".join([f"\t{i+1}. {self.__import_module(module).action.__doc__}" for i, module in enumerate(current_modules)]))
+
+        # Exit if lowest level, otherwise go back
         if self.__str__() == "do_":
             print(f"\t{len(current_modules) + 1}. Exit")
         else:
             print(f"\t{len(current_modules) + 1}. Back")
         print("Enter choice: ", end="")
 
+    # Run the menu
     def run(self):
         user_input_error = True
 
@@ -62,6 +68,7 @@ class Controller(Stack):
             if self.size() <= 0:
                 user_input_error = False
 
+    # Attempting to execute the function under a file
     def __execute(self, user_input):
         filePath = os.path.join(folderPath, f"{self}{user_input}.py")
         current_modules = list(filter(lambda x: x.startswith(self.__str__()) and (len(x.replace(self.__str__(), "").split('_')) <= 1), self.__modules))
@@ -83,19 +90,3 @@ class Controller(Stack):
                 print("Option does not exist!")
             except ModuleNotFoundError:
                 print("Invalid option!")
-
-    # This method is for reference, to guide us through the concept of this controller.py file
-    # def recursive_test(self, files):
-    #     for file in files:
-    #         if file not in self.__finished_modules:
-    #             module = self.import_module(file)
-                
-    #             sub_level_module_file = f"do_{file[3:-3]}_1.py"
-
-    #             if sub_level_module_file in files:
-    #                 self.recursive_test(list(filter(lambda x: x.startswith(f"{file[:-3]}_"), files)))
-
-    #             else:
-    #                 self.__finished_modules.append(file)
-    #                 print(module.action.__doc__)
-    #                 module.action()
