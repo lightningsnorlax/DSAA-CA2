@@ -25,7 +25,7 @@ class Bracketting():
         elif s.isalpha():
             return True
         # Check for sin cos tan
-        elif len(s) == 5 and s[:3] in ["sin", "cos", "tan"] and s[3:].isdigit() and int(s[3:]) in [30, 45, 60, 90]:
+        elif len(s) == 5 and s[:3] in ["sin", "cos", "tan"] and s[3:].isdigit() and int(s[3:]) in [0, 30, 45, 60]:
             return True
         # Checks for e
         elif len(s) == 2 and s[0] == "e" and s[1].isdigit():

@@ -2,7 +2,7 @@
 |                                                                                                           |
 |                                           - Important Note -                                              |
 |   We currently only allow single values in trigonometry, expressions such as sin(a+b) will be rejected.   |
-|                           Only the angle degrees: 30, 45 and 60 will be accepted.                         |
+|                         Only the angle degrees: 0, 30, 45 and 60 will be accepted.                        |
 |                      Any variable name in the trigonometry function will be rejected.                     |
 |                                                                                                           |
 |     ------------------------------------------------------------------------------------------------      |
