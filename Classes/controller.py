@@ -80,9 +80,9 @@ class Controller(Stack):
                 input("\nPress enter key, to continue....")
             # If user chooses an invalid option
             except FileNotFoundError:
-                print("Method not found")
+                print("Option does not exist!")
             except ModuleNotFoundError:
-                print("Module not found")
+                print("Invalid option!")
 
     # This method is for reference, to guide us through the concept of this controller.py file
     # def recursive_test(self, files):

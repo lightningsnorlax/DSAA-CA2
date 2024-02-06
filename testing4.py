@@ -251,8 +251,8 @@ if __name__ == "__main__":
     string3 = "2.2+((4*5**2)-7)"
     errorstring1 = "2.2(+)4*5**2-7+a"
     newstring1 = "2.7 + cos45 / sin30 * tan60 + e2 + log100"
-    chosen = string3
-    brackets = Bracketting(chosen, True)
+    chosen = string1
+    brackets = Bracketting(chosen, False)
     print(brackets.bracket_checking())
     testing = brackets.parsing_exp()
     print(testing)
