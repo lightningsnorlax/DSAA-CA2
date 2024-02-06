@@ -25,15 +25,23 @@ class Bracketting():
         if '.' in s:
             return s.replace('.', '', 1).isdigit()
         elif s.isalpha():
-            return True
+            if len(s) == 3 and s[:3] in ["sin", "cos", "tan"]:
+                return False
+            elif len(s) == 3 and s[:3] in ["log"]:
+                return False
+            elif len(s) == 1 and s[0] == "e":
+                return False
+            else:
+                return True
         # Check for sin cos tan
         elif len(s) == 5 and s[:3] in ["sin", "cos", "tan"] and s[3:].isdigit() and int(s[3:]) in [0, 30, 45, 60] and globalVars.trigo_check:
-                return True
+            return True
         # Checks for e
         elif len(s) == 2 and s[0] == "e" and s[1].isdigit() and globalVars.exp_check:
             return True
         # Checks for log
         elif len(s) >= 4 and s[:3] == "log" and s[3:].isdigit() and globalVars.logarithm_check:
+            print(s)
             return True
         return s.isdigit()
     
@@ -141,7 +149,6 @@ class Bracketting():
         # The result is the only element left in the operand stack
         return operand_stack[0]
 
-    
     # recursive function to look at every layer of list, to bracket (calls add_bracket function)
     def __run_add_brackets_recursive(self, lst, level):
         result = ""
