@@ -22,7 +22,9 @@ def action():
 
     # Loop through all existing keyes in statementTable
     for key in sortedKeys:
+        # Obtain expression from global Hash Table
         expression = globalVars.statementTable[key]
+        # Check if smart caching is enabled
         if globalVars.smart_cache_check:
             evaluation = globalVars.outputTable[key]
             print(f'{key}={expression}=> {int(evaluation) if evaluation != None and int(evaluation) == evaluation else evaluation}')

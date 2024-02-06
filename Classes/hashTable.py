@@ -19,21 +19,6 @@ class HashTable:
 	def __hash_function(self, key):
 		return hash(key) % self.__capacity
 
-		# Source Credits: https://cp-algorithms.com/string/string-hashing.html
-		# p = 31
-		# m = 10**9 + 9
-		# hash_value = 0
-		# p_pow = 1
-
-		# for c in key:
-		# 	hash_value = (hash_value + (ord(c) - ord('a') + 1) * p_pow) % m
-		# 	p_pow = (p_pow * p) % m
-
-		# hash_value = hash(key)
-		# print(hash_value)
-
-		#return hash_value
-
 	# Deal with collision resolution by means of
 	# linear probing with a 'plus 1' rehash
 	def __rehash_function(self, old_hash):
@@ -52,7 +37,6 @@ class HashTable:
 		for key, value in zip(old_keys, old_buckets):
 			if key is not None:
 				self[key] = value
-
 	
 	# (key, value) insertion
 	def __setitem__(self, key, value):

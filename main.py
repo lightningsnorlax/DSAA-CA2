@@ -8,7 +8,6 @@
 from Classes.controller import Controller
 import Classes.globalVars as globalVars
 from Classes.fileHandler import FileHandler
-import math
 
 # -------------------------
 # Main Function

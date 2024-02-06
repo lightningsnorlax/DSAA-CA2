@@ -21,16 +21,16 @@ def action():
                                            lambda x: (len(x.split("=")) == 2 and (x.split("="))[0].isalpha()) and Bracketting(x.split("=")[1], globalVars.brackets_check).bracket_checking(),
                                            output="Invalid Expression\n")
     
-    # Splits if valid
+    # Split statement into variable name and expression if valid
     variableName, expression = statement.split("=")
 
     # Overides from bracketing if check
     if globalVars.brackets_check:
         expression = Bracketting(expression, globalVars.brackets_check).parsing_exp()
         
-    # Storing
+    # Store variable name and expression into global Hash Table
     globalVars.statementTable[variableName] = expression
 
-    # Caching
+    # Checks if Smart Caching is toggled on
     if globalVars.smart_cache_check:
         SmartCaching(globalVars.smart_cache_check, expression, variableName).smart_cache()

@@ -3,12 +3,6 @@
 # Class: DAAA/FT/2B/07
 
 # -------------------------
-# Imports
-# -------------------------
-from pathlib import Path
-import os
-
-# -------------------------
 # General Class
 # -------------------------
 class General:

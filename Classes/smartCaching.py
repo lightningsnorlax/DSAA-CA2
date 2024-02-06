@@ -8,9 +8,13 @@
 import Classes.globalVars as globalVars
 from Classes.bracket_stuff import Bracketting
 from Classes.parseTree import ParseTree
-import time
 
+# -------------------------
+# SmartCaching Class
+# -------------------------
 class SmartCaching:
+
+    # Constructor Function
     def __init__(self, smart_cache_check, exp, var):
         self.__smart_cache_check = smart_cache_check
         self.__exp = exp

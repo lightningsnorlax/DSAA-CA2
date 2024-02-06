@@ -7,6 +7,7 @@
 # -------------------------
 from Classes.parseTree import ParseTree
 import Classes.globalVars as globalVars
+from Classes.fileHandler import FileHandler
 
 # -------------------------
 # Action Function
@@ -14,14 +15,12 @@ import Classes.globalVars as globalVars
 def action():
     "Visualize assignment statement as Parse Tree"
 
-    print("""
-    ******************************************************************
-    |        ~ Note: This is an Interactive Visualization ~          |
-    |       ------------------------------------------------         |
-    |       Click on Variable Nodes to view their parse tree         |
-    ******************************************************************
-    """)
-    print("Please enter the variable you want to visualize as a Parse Tree: ")
+    # Display Banner
+    file = FileHandler(folder_path = 'Additional Resources')
+    for chunk in (file.readByLine("visualization_banner.txt")):
+        print(chunk)
+        
+    print("\nPlease enter the variable you want to visualize as a Parse Tree: ")
     user_input = input()
 
     # Check if user requested variable exists

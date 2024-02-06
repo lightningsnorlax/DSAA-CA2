@@ -34,10 +34,10 @@ def action():
             if globalVars.brackets_check:
                 expression = Bracketting(expression, globalVars.brackets_check).parsing_exp()
 
-            # Storing
+            # Stores variable name and expression into global Hash Table
             globalVars.statementTable[variableName] = expression 
 
-            # Caching    
+            # Check is smart caching is enabled  
             if globalVars.smart_cache_check:
                 SmartCaching(globalVars.smart_cache_check, expression, variableName).smart_cache()
         else:

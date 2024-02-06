@@ -18,7 +18,7 @@ def initialize():
     referenceTable = HashTable(15) # Instantiate a Hash Table to store reference variables
     outputTable = HashTable(15) # Instantiate a Hash Table to store output variables
 
-    # Toggleable Purposes
+    # Set Toggleable Checking Purposes
     brackets_check = False
     smart_cache_check = False
     trigo_check = False

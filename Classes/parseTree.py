@@ -164,14 +164,16 @@ class ParseTree(BinaryTree):
 			return None
 
 	def drawParseTree(self, variableName):
+
 		# Function to get the node value at the clicked position
-		def get_clicked_node_value(x, y, tree):
+		def _get_clicked_node_value(x, y, tree):
+
 			# Function to calculate the Euclidean distance between two points
-			def distance(x1, y1, x2, y2):
+			def _distance(x1, y1, x2, y2):
 				return ((x1 - x2) ** 2 + (y1 - y2) ** 2) ** 0.5
 
 			# Helper function to traverse the tree and find the closest node
-			def find_closest_node(node, target_x, target_y):
+			def _find_closest_node(node, target_x, target_y):
 				if node is None:
 					return None, float('inf')  # Return None if node is None and infinity as initial distance
 
@@ -179,11 +181,11 @@ class ParseTree(BinaryTree):
 				current_x, current_y = node.position
 
 				# Calculate the distance between the current node and the clicked position
-				current_distance = distance(current_x, current_y, target_x, target_y)
+				current_distance = _distance(current_x, current_y, target_x, target_y)
 
 				# Recursively find the closest node in the left and right subtrees
-				left_node, left_distance = find_closest_node(node.leftTree, target_x, target_y)
-				right_node, right_distance = find_closest_node(node.rightTree, target_x, target_y)
+				left_node, left_distance = _find_closest_node(node.leftTree, target_x, target_y)
+				right_node, right_distance = _find_closest_node(node.rightTree, target_x, target_y)
 
 				# Compare distances and return the closest node
 				if current_distance < left_distance and current_distance < right_distance:
@@ -197,25 +199,35 @@ class ParseTree(BinaryTree):
 			starting_node = self
 
 			# Call the helper function to find the closest node
-			closest_node, closest_distance = find_closest_node(starting_node, x, y)
+			closest_node, closest_distance = _find_closest_node(starting_node, x, y)
 
 			# Return the value of the closest node
 			return closest_node.key if closest_node else None
 
 		# Referenced Source Code Credits: https://gist.github.com/Liwink/b81e726ad89df8b0754a3a1d0c40d0b4
+		# Convert Parse Tree into a string to draw in Turtle
 		def _convertToDrawString(tree):
+			# If key is none
 			if tree is None:
 				return 'null'
+			
+			# If key is a number
 			if isinstance(tree.key, float):
 				return str(tree.key)
+			
+			# If key is a variable
 			if tree.key.isalpha():
 				return tree.key
+			
 			return f'[{tree.key} {_convertToDrawString(tree.leftTree)} {_convertToDrawString(tree.rightTree)}]'
 		
+		# Click event function
 		def _on_screen_click(x, y, tree):
-			node_value = get_clicked_node_value(x, y, tree)
+			node_value = _get_clicked_node_value(x, y, tree)
 			try:
+				# Check if node clicked on is a variable name
 				if str(node_value).isalpha():
+					# Get the expression
 					expression = globalVars.statementTable[node_value]
 				
 					# Instantiate ParseTree
@@ -225,7 +237,7 @@ class ParseTree(BinaryTree):
 			except:
 				pass
 
-		# Draw
+		# Draw Parse Tree
 		def _draw(node, x, y, dx, forward_color='blue', backward_color='red'):
 			if node:
 				t.goto(x, y)
@@ -233,6 +245,7 @@ class ParseTree(BinaryTree):
 				t.goto(x, y - 20)
 				t.pendown()
 
+				# Check if node is variable name to set the text to be written
 				if str(node.key).isalpha():
 					tree = ParseTree(key='?', exp=globalVars.statementTable[str(node.key)])
 					evaluation = tree.evaluateTree()
@@ -261,23 +274,27 @@ class ParseTree(BinaryTree):
 				t.pendown()
 				t.backward(20)  # Adjust this value as needed
 
+		# Convert Parse Tree class into a string for drawing purposes
 		draw_string = _convertToDrawString(self.__buildParseTree())
-
-		# Set up turtle window with a minimum width and height
-		turtle_width = max(len(draw_string) * 10, 300) # Adjust factor accordingly
-		turtle_height = 300
 
 		# Referenced Source Code Credits: https://stackoverflow.com/questions/14730475/python-turtle-window-with-scrollbars
 		# Set up Tkinter window
 		root = tk.Tk()
+
+		# Set up turtle window with a minimum width and height
+		turtle_width = max(len(draw_string) * 10, 300)
+		turtle_height = 300
 		root.geometry(f'{turtle_width}x{turtle_height}-5+50')  # Move window position to left end of PC screen
 
+		# Create a scrollable canvas
 		cv = turtle.ScrolledCanvas(root, width=900, height=900)
-		cv.pack()
+		cv.pack() # Adjust size of canvas to place inside tkinter application
 
+		# Create a turtle screen to set as drawing canvas
 		screen = turtle.TurtleScreen(cv)
 		screen.screensize(2000, 1500)
 
+		# Create a raw turtle to draw
 		t = turtle.RawTurtle(screen)
 		t.hideturtle()
 		t.speed(1)
@@ -287,6 +304,7 @@ class ParseTree(BinaryTree):
 		t.goto(0, 70)
 		t.pendown()
 		t.color('red')
+		# Get the Variable Name and Evaluation to print at top of Parse Tree for easy identification
 		tree = ParseTree(key='?', exp=globalVars.statementTable[variableName])
 		evaluation = tree.evaluateTree()
 		t.write(f'{variableName} = {evaluation}', align='center', font=('Arial', 15, 'bold'))
@@ -299,4 +317,5 @@ class ParseTree(BinaryTree):
 		# Bind the click event to the screen using a lambda function
 		screen.onclick(functools.partial(_on_screen_click, tree=self))
 
+		# Start tkinter application event loop to listen to user action and events
 		root.mainloop()
