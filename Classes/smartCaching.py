@@ -18,14 +18,10 @@ class SmartCaching:
         
     def __reference_table_add(self, token):
         if token in globalVars.referenceTable.getAllKeys():
-            globalVars.referenceTable[token].append(self.__var)
+            if self.__var not in globalVars.referenceTable[token]:
+                globalVars.referenceTable[token].append(self.__var)
         else:
             globalVars.referenceTable[token] = [self.__var]
-            
-        if self.__var in globalVars.reverseReferenceTable.getAllKeys():
-            globalVars.reverseReferenceTable[self.__var].append(token)
-        else:
-            globalVars.reverseReferenceTable[self.__var] = [token]
             
     def __output_table_add(self, eval):
         globalVars.outputTable[self.__var] = eval
@@ -33,11 +29,7 @@ class SmartCaching:
     def smart_cache(self):
         bracketting = Bracketting(self.__exp, globalVars.brackets_check)
         tokens = bracketting.return_tokens()
-        
-        # Updates the other reference tables if updating
-        if self.__var in globalVars.reverseReferenceTable.getAllKeys():
-            self.__update_references()
-            
+
         # Tokenizing
         for token in tokens:
             if token.isalpha():
@@ -57,17 +49,17 @@ class SmartCaching:
         
         self.__output_table_add(evaluation)
         if var in globalVars.referenceTable.getAllKeys():
-            self.__update_output()
+            self.__update_output(var)
         
-    def __update_output(self):
-        items = globalVars.referenceTable[self.__var]
+    def __update_output(self, var):
+        items = (globalVars.referenceTable[var]).copy()
+        globalVars.referenceTable[var] = []
+        count = 0
         for item in items:
+            count += 1
             if item in globalVars.statementTable.getAllKeys():
-                SmartCaching(globalVars.smart_cache_check, globalVars.statementTable[item], item).smart_cache()
-            
-    def __update_references(self):
-        for ref in globalVars.reverseReferenceTable[self.__var]:
-            print(ref, self.__var, globalVars.referenceTable[ref])
-            print(globalVars.referenceTable.getAllItems())
-            if self.__var in globalVars.referenceTable[ref]:
-                globalVars.referenceTable[ref].remove(self.__var)
+                smarts = SmartCaching(globalVars.smart_cache_check, globalVars.statementTable[item], item)
+                smarts.smart_cache()
+
+    def returnVar(self):
+        return self.__var, self.__exp

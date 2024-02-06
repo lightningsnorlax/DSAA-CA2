@@ -28,10 +28,14 @@ def action():
     file = FileHandler(folder_path = 'Output')
     file.writeToFile(output_path, "")
     
-    for key in globalVars.statementTable.getAllKeys():
-        parseTree = ParseTree(key='?', exp=globalVars.statementTable[key])
-        evaluation = parseTree.evaluateTree(ref_key=key)
-        by_result[key] = evaluation
+    if globalVars.smart_cache_check:
+        for key in globalVars.outputTable.getAllKeys():
+            by_result[key] = globalVars.outputTable[key]
+    else:
+        for key in globalVars.statementTable.getAllKeys():
+            parseTree = ParseTree(key='?', exp=globalVars.statementTable[key])
+            evaluation = parseTree.evaluateTree(ref_key=key)
+            by_result[key] = evaluation
 
     # Sort according to the value of the key
     sorted_results = sorted(set(by_result.getAllItems()), key=lambda x: (float('-inf') if x[1] is None else x[1]), reverse=True)
