@@ -1,6 +1,19 @@
 from Classes.general import General
 
 import re
+# Name: Lim Yu Yang Ian & Yadanar Aung
+# Admin No.: 2201874 & 2214621
+# Class: DAAA/FT/2B/07
+
+# -------------------------
+# Imports
+# -------------------------
+import re
+from Classes.stack import Stack
+
+# -------------------------
+# Bracketting Class
+# -------------------------
 class Bracketting():
     def __init__(self, exp, bracket_check):
         self.__exp = exp
@@ -96,72 +109,36 @@ class Bracketting():
         operators = {"**": 3, "*": 2, "/": 2, "+": 1, "-": 1}
         tokens = self.__tokenize_expression(exp)
 
-        # Iterate through the tokens in reverse order
-        i = len(tokens) - 1
-        while i >= 0:
-            if tokens[i] in operators:
-                operator = tokens[i]
-                # Find the operands surrounding the operator
-                operand1_index = i - 1
-                operand2_index = i + 1
-                # Check if the indices are valid
-                if operand1_index >= 0 and operand2_index < len(tokens):
-                    # Create a new token with brackets around the operands and the operator
-                    new_token = f"({tokens[operand1_index]}{operator}{tokens[operand2_index]})"
-                    # Replace the operands and the operator with the new token
-                    tokens = tokens[:operand1_index] + [new_token] + tokens[operand2_index + 1 :]
-                else:
-                    # Invalid indices, handle the error or break the loop
-                    break
-            # Move to the previous token
-            i -= 1
+        # Function to apply operators with two operands
+        def apply_operator(operands, operator):
+            operand2 = operands.pop()
+            operand1 = operands.pop()
+            return f"({operand1}{operator}{operand2})"
 
-        # Return the result
-        return tokens[0]
+        # Stack to keep track of operators
+        operator_stack = []
+
+        # Stack to keep track of operands
+        operand_stack = []
+
+        for token in tokens:
+            if token in operators:
+                # Pop operators with higher precedence from the stack and apply them
+                while (operator_stack and 
+                    operators[operator_stack[-1]] >= operators[token]):
+                    operand_stack.append(apply_operator(operand_stack, operator_stack.pop()))
+                operator_stack.append(token)
+            else:
+                operand_stack.append(token)
+
+        # Apply remaining operators
+        while operator_stack:
+            operand_stack.append(apply_operator(operand_stack, operator_stack.pop()))
+
+        # The result is the only element left in the operand stack
+        return operand_stack[0]
+
     
-    # # recursive function to look at every layer of list, to bracket (calls add_bracket function)
-    # def run_add_brackets_recursive(self, lst, level):
-    #     result = ""
-    #     temp = ""
-    #     count = 0
-    #     for i, item in enumerate(lst):
-            
-    #         # If a list, recursive
-    #         if isinstance(item, list):
-    #             if count % 2 != 0 and count >= 3:
-    #                 result += self.add_brackets(temp)
-    #             elif count >= 3:
-    #                 if temp[0].isnumeric():
-    #                     result += self.add_brackets(temp[:-1])
-    #                     result += temp[-1]
-    #                 elif temp[-1].isnumeric():
-    #                     result += temp[1]
-    #                     result += self.add_brackets(temp[1:])
-                    
-    #             else:
-    #                 result += temp
-    #             temp = ""
-    #             count = 0
-    #             result += self.run_add_brackets_recursive(lst[i], level + 1)
-                
-    #         else:
-    #             temp += item
-    #             count += 1
-                
-    #     # If no lists
-    #     if level == 1 and len(result) != 0 and result[0] != "(":
-    #         result = "(" + result + ")"
-            
-    #     if count % 2 != 0 and count >= 3:
-    #         result += self.add_brackets(temp)  
-    #     else:
-    #         result += temp  # Move this line here
-            
-    #     if level == 1 and result[-1] != ")":
-    #         result = "(" + result + ")"
-    #     print(result, lst)
-    #     return result
-
     # recursive function to look at every layer of list, to bracket (calls add_bracket function)
     def __run_add_brackets_recursive(self, lst, level):
         result = ""
@@ -192,7 +169,11 @@ class Bracketting():
                     error_flag = True
                 temp = ""
                 count = 0
+
+                # Calling recursively
                 returnResult = self.__run_add_brackets_recursive(lst[i], level + 1)
+
+                # Error handling
                 if returnResult == "error":
                     error_flag = True
                 else:
@@ -211,21 +192,18 @@ class Bracketting():
         
         if not added_flag:
             result = "(" + result + ")"
-        
+
+        # To add final brackets if they do no exist
         if level == 1 and len(result) != 0 and result[0] != "(":
             result = "(" + result + ")"
-
-        # if level == 1 and result[-1] != ")":
-        #     print("adding final", result)
-        #     result = "(" + result + ")"
 
         if error_flag:
             result = "error"
         return result
 
+    # Parsing the expression
     def parsing_exp(self):
         tokens = self.__tokenize_expression(self.__exp)
-        print(tokens)
         exp_str = " "
         for token in tokens:
             if token != " ":
@@ -243,18 +221,19 @@ class Bracketting():
 
         if not (exp_str[1] == "[" and exp_str[-1] == "]"):
             exp_str = "[" + exp_str[1:] + "]"
+
+        # After changing into list, evaluate the list
         exp_str = list(eval(exp_str))
 
         result = self.__run_add_brackets_recursive(exp_str, 1)
         return result
-    
 if __name__ == "__main__":       
     string1 = "((((((2.2+4)+7)*5)**2)-7)+a)"
     string2 = "2.2+4*5**2-7+mango"
     string3 = "2.2+((4*5**2)-7)"
     errorstring1 = "2.2(+)4*5**2-7+a"
     newstring1 = "2.7 + cos45 / sin30 * tan60 + e2 + log100"
-    chosen = newstring1
+    chosen = string2
     brackets = Bracketting(chosen, True)
     print(brackets.bracket_checking())
     testing = brackets.parsing_exp()
