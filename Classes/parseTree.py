@@ -36,7 +36,9 @@ class ParseTree(BinaryTree):
 		tree = self
 		stack.push(tree)
 
-		currentTree = tree 
+		currentTree = tree
+
+		# Check if length of tokens is 3, which suggest (number), no need to build Parse Tree with '?'
 
 		for t in tokens: 
 		
@@ -119,7 +121,7 @@ class ParseTree(BinaryTree):
 					# Check if it is a variable name
 					if tree.getKey().isalpha():
 						variableName = tree.getKey()
-						# Check if it is self callin
+						# Check if it is self calling
 						if variableName == self.__ref_key:
 							return None
 							
