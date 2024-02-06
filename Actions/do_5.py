@@ -47,6 +47,10 @@ def action():
 
     # Print out the sorted results
     for result in sorted_results:
+        # Avoid Double Printing
+        if result[1] in printed:
+            continue
+
         expressions = [(key, globalVars.statementTable[key]) for key, value in by_result.getAllItems() if value == result[1]]
         # Sort keys in order of alphabet
         sorted_expression_keys = mergeSort.mergeSort([key for key, _ in expressions])
