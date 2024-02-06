@@ -24,6 +24,15 @@ class Bracketting():
             return s.replace('.', '', 1).isdigit()
         elif s.isalpha():
             return True
+        # Check for sin cos tan
+        elif len(s) == 5 and s[:3] in ["sin", "cos", "tan"] and s[3:].isdigit() and int(s[3:]) in [30, 45, 60]:
+            return True
+        # Checks for e
+        elif len(s) == 2 and s[0] == "e" and s[1].isdigit():
+            return True
+        # Checks for log
+        elif len(s) >= 4 and s[:3] == "log" and s[3:].isdigit():
+            return True
         return s.isdigit()
     
     def __getPattern(self):
@@ -96,33 +105,30 @@ class Bracketting():
     def __add_brackets(self, exp):
         operators = {"**": 3, "*": 2, "/": 2, "+": 1, "-": 1}
         tokens = self.__tokenize_expression(exp)
-        
 
-        while len(tokens) > 1:
-            operator_list = []
-            operator_list_index = []
+        # Iterate through the tokens in reverse order
+        i = len(tokens) - 1
+        while i >= 0:
+            if tokens[i] in operators:
+                operator = tokens[i]
+                # Find the operands surrounding the operator
+                operand1_index = i - 1
+                operand2_index = i + 1
+                # Check if the indices are valid
+                if operand1_index >= 0 and operand2_index < len(tokens):
+                    # Create a new token with brackets around the operands and the operator
+                    new_token = f"({tokens[operand1_index]}{operator}{tokens[operand2_index]})"
+                    # Replace the operands and the operator with the new token
+                    tokens = tokens[:operand1_index] + [new_token] + tokens[operand2_index + 1 :]
+                else:
+                    # Invalid indices, handle the error or break the loop
+                    break
+            # Move to the previous token
+            i -= 1
 
-            for i, token in enumerate(tokens):
-                if token in operators:
-                    operator_list_index.append(i)
-                    operator_list.append(token)
-
-            max_precedence = max(operators.values())
-
-            for precedence in range(max_precedence, 0, -1):
-                for operator_index, operator in enumerate(operator_list_index):
-                    if operators[tokens[operator]] == precedence:
-                        tokens = (
-                            tokens[: operator - 1]
-                            + [f"({tokens[operator - 1]}{tokens[operator]}{tokens[operator + 1]})"]
-                            + tokens[operator + 2 :]
-                        )
-                        operator_list_index.pop(operator_index)
-                        operator_list.pop(operator_index)
-                        break
-
+        # Return the result
         return tokens[0]
-
+    
     # # recursive function to look at every layer of list, to bracket (calls add_bracket function)
     # def run_add_brackets_recursive(self, lst, level):
     #     result = ""
@@ -229,6 +235,7 @@ class Bracketting():
 
     def parsing_exp(self):
         tokens = self.__tokenize_expression(self.__exp)
+        print(tokens)
         exp_str = " "
         for token in tokens:
             if token != " ":
