@@ -24,13 +24,20 @@ def action():
     # Input File Validation
     inputFile = General.validationTracking("Please enter input file: ", lambda x: x.endswith(".txt"), output="Invalid File Type")
 
+    # Running line by line to handle large files
     for line in file.readByLine(inputFile):
-        flag = True
+        # Data validation for line
         if len(line.split("=")) == 2 and line.split("=")[0].isalpha() and Bracketting(line.split("=")[1], globalVars.brackets_check).bracket_checking():
             variableName, expression = line.split("=")
+
+            # Overides from bracketing if check
             if globalVars.brackets_check:
                 expression = Bracketting(expression, globalVars.brackets_check).parsing_exp()
-            globalVars.statementTable[variableName] = expression     
+
+            # Storing
+            globalVars.statementTable[variableName] = expression 
+
+            # Caching    
             if globalVars.smart_cache_check:
                 SmartCaching(globalVars.smart_cache_check, expression, variableName).smart_cache()
         else:

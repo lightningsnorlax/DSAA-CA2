@@ -11,3 +11,4 @@
 # -------------------------
 def action():
     "Smart Caching"
+    # No action, meant to be a submenu

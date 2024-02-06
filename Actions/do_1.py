@@ -20,11 +20,17 @@ def action():
     statement = General.validationTracking("Enter the assignment statement you want to add/modify:\nFor example, a=(1+2)\n",
                                            lambda x: (len(x.split("=")) == 2 and (x.split("="))[0].isalpha()) and Bracketting(x.split("=")[1], globalVars.brackets_check).bracket_checking(),
                                            output="Invalid Expression\n")
+    
+    # Splits if valid
     variableName, expression = statement.split("=")
+
+    # Overides from bracketing if check
     if globalVars.brackets_check:
         expression = Bracketting(expression, globalVars.brackets_check).parsing_exp()
         
+    # Storing
     globalVars.statementTable[variableName] = expression
 
+    # Caching
     if globalVars.smart_cache_check:
         SmartCaching(globalVars.smart_cache_check, expression, variableName).smart_cache()

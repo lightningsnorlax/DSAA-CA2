@@ -19,12 +19,14 @@ def action():
     print("-" * 50)
     temp_store_check = globalVars.smart_cache_check
 
+    # Returns the time taken to execute action2
     def timeOption2():
         start = time.time()
         action2()
         end = time.time()
         return end - start
     
+    # Adds to output table incase its users first interaction with the program
     globalVars.smart_cache_check = False
     without_smart_caching = timeOption2()
     globalVars.smart_cache_check = True
@@ -32,8 +34,11 @@ def action():
         for key in globalVars.statementTable.getAllKeys():
             expression = globalVars.statementTable[key]
             SmartCaching(globalVars.smart_cache_check, expression, key).smart_cache()
+
+    # Runs with smart caching
     with_smart_caching = timeOption2()
     
+    # Printing
     print("\n")
     print("Speed Comparison")
     print("-" * 50)

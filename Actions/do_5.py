@@ -20,6 +20,7 @@ def action():
     # By their value (in descending order), followed by alphabetically order by variable name
     # Sorted results will be written back to an output file
 
+    # Get output file
     output_path = General.validationTracking("\nPlease enter output file: ", lambda x: x.endswith(".txt"), output="Invalid File Type")
 
     by_result = HashTable(50)
@@ -28,9 +29,12 @@ def action():
     file = FileHandler(folder_path = 'Output')
     file.writeToFile(output_path, "")
 
+    # Run output if check is on
     if globalVars.smart_cache_check:
         for key in globalVars.outputTable.getAllKeys():
             by_result[key] = globalVars.outputTable[key]
+    
+    # Having to run all evaluations because no check
     else:
         for key in globalVars.statementTable.getAllKeys():
             parseTree = ParseTree(key='?', exp=globalVars.statementTable[key])
@@ -40,10 +44,8 @@ def action():
     # Sort according to the value of the key
     sorted_results = sorted(set(by_result.getAllItems()), key=lambda x: (float('-inf') if x[1] is None else x[1]), reverse=True)
 
+    # Print out the sorted results
     for result in sorted_results:
-
-        if result[1] in printed:
-            continue
 
         expressions = [(key, globalVars.statementTable[key]) for key, value in by_result.getAllItems() if value == result[1]]
         sorted_expression_keys = mergeSort.mergeSort([key for key, _ in expressions])

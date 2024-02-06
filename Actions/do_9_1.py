@@ -14,10 +14,14 @@ from Classes.smartCaching import SmartCaching
 def action():
     "Enable Smart Caching"
     
+    # Toggling the check
     globalVars.smart_cache_check = not globalVars.smart_cache_check
+
+    # Changing docstring
     print(f"Smart Caching is now {'enabled' if globalVars.smart_cache_check else 'disabled'}")
     action.__doc__ = f"{'Disable' if globalVars.smart_cache_check else 'Enable'} Smart Caching"
 
+    # Run all outputs in case its the user's first interaction with the program
     if globalVars.smart_cache_check:
         for key in globalVars.statementTable.getAllKeys():
             expression = globalVars.statementTable[key]
