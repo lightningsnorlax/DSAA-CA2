@@ -18,9 +18,6 @@ def main():
     # Initialize statementTable to be global to store assignment statements
     globalVars.initialize()
 
-    print(math.log10(100)+1)
-    print(math.log10(100)+1)
-
     # Display Banner
     file = FileHandler(folder_path = 'Additional Resources')
     for chunk in (file.readByLine("banner.txt")):

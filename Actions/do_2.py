@@ -30,8 +30,12 @@ def action():
             # Create an instance of ParseTree
             parseTree = ParseTree(key = '?', exp = expression, ref_key=key)
             evaluation = parseTree.evaluateTree()
+
+            # Handling leading zeros
             if evaluation != None:
+                # Check if result is integer
                 if int(evaluation) == evaluation:
+                    # Print evaluation without leading zeros
                     evaluation = int(evaluation)
-            # Print evaluation without leading zeros
+
             print(f'{key}={expression}=> {int(evaluation) if evaluation != None and int(evaluation) == evaluation else evaluation}')

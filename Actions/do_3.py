@@ -32,8 +32,14 @@ def action():
         # Print in order
         parseTree.printInorder(0)
 
-        # Print without leading zeros
-        print(f'Value for variable "{user_input}" is {int(evaluation) if int(evaluation) == evaluation else evaluation}')
+        # Handling leading zeros
+        if evaluation != None:
+            # Check if result is integer
+            if int(evaluation) == evaluation:
+                # Print without leading zeros
+                evaluation = int(evaluation)
+
+        print(f'Value for variable "{user_input}" is {evaluation}')
     else:
         # User requested variable does not exist
         print(f"Variable {user_input} does not exist in the current assignment statements")

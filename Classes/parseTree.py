@@ -131,7 +131,7 @@ class ParseTree(BinaryTree):
 						else:
 							return None
 					# Check if trigonometry
-					elif tree.getKey()[:3].lower() in ['sin', 'cos', 'tan']:
+					elif tree.getKey()[:3].lower() in ['sin', 'cos', 'tan'] and globalVars.trigo_check:
 						operand = int(tree.getKey()[3:])
 
 						if tree.getKey()[:3].lower() == 'sin':
@@ -141,11 +141,11 @@ class ParseTree(BinaryTree):
 						elif tree.getKey()[:3].lower() == 'tan':
 							return math.tan(math.radians(operand))
 					# Check if logarithmn
-					elif tree.getKey()[:3].lower() == 'log':
+					elif tree.getKey()[:3].lower() == 'log' and globalVars.logarithm_check:
 						operand = int(tree.getKey()[3:])
 						return math.log10(operand)
 					# Check if exponential
-					elif tree.getKey()[:1].lower() == 'e':
+					elif tree.getKey()[:1].lower() == 'e' and globalVars.exp_check:
 						exponent = int(tree.getKey()[1:])
 						return math.exp(exponent) 
 				except:

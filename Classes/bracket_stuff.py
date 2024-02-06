@@ -7,6 +7,7 @@
 # -------------------------
 import re
 from Classes.stack import Stack
+import Classes.globalVars as globalVars
 
 # -------------------------
 # Bracketting Class
@@ -24,15 +25,18 @@ class Bracketting():
             return s.replace('.', '', 1).isdigit()
         elif s.isalpha():
             return True
-        # Check for sin cos tan
-        elif len(s) == 5 and s[:3] in ["sin", "cos", "tan"] and s[3:].isdigit() and int(s[3:]) in [0, 30, 45, 60]:
-            return True
-        # Checks for e
-        elif len(s) == 2 and s[0] == "e" and s[1].isdigit():
-            return True
-        # Checks for log
-        elif len(s) >= 4 and s[:3] == "log" and s[3:].isdigit():
-            return True
+        elif globalVars.trigo_check:
+            # Check for sin cos tan
+            if len(s) == 5 and s[:3] in ["sin", "cos", "tan"] and s[3:].isdigit() and int(s[3:]) in [0, 30, 45, 60]:
+                return True
+        elif globalVars.exp_check:
+            # Checks for e
+            if len(s) == 2 and s[0] == "e" and s[1].isdigit():
+                return True
+        elif globalVars.logarithm_check:
+            # Checks for log
+            if len(s) >= 4 and s[:3] == "log" and s[3:].isdigit():
+                return True
         return s.isdigit()
     
     def __getPattern(self):
