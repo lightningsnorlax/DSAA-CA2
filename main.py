@@ -19,6 +19,7 @@ def main():
     globalVars.initialize()
 
     print(math.log10(100)+1)
+    print(math.log10(100)+1)
 
     # Display Banner
     file = FileHandler(folder_path = 'Additional Resources')

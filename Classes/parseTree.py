@@ -37,7 +37,6 @@ class ParseTree(BinaryTree):
 		stack.push(tree)
 
 		currentTree = tree 
-		print(tokens)
 
 		for t in tokens: 
 		
@@ -112,12 +111,10 @@ class ParseTree(BinaryTree):
 		rightTree = tree.getRightTree()
 
 		try:
-			print(1)
 			if leftTree != None and rightTree != None:
 				function = operators[tree.getKey()] # root node to get operator
 				return function(self.__evaluate(leftTree), self.__evaluate(rightTree))
 			else: # Check if leaf node
-				print(2)
 				try: 
 					# Check if it is a variable name
 					if tree.getKey().isalpha():
@@ -138,7 +135,6 @@ class ParseTree(BinaryTree):
 						operand = int(tree.getKey()[3:])
 
 						if tree.getKey()[:3].lower() == 'sin':
-							print('enter sin function')
 							return math.sin(math.radians(operand))
 						elif tree.getKey()[:3].lower() == 'cos':
 							return math.cos(math.radians(operand))
