@@ -1,0 +1,19 @@
+*************************************************************************************************************
+|                                                                                                           |
+|                                           - Important Note -                                              |
+|               We only accept cases of logn, where log is to the base of 10 and n must be a number.        |
+|     We currently only allow single values in logarithm, expressions such as log(a+b) will be rejected.    |
+|                             Do not key in brackets in the logarithm function.                             |
+|                      Any variable name in the logarithm function will be rejected.                        |
+|                                                                                                           |
+|                                         - Important Reminder -                                            |
+|           Once this feature is disabled, all existing statements with Logarithm will not work.            |
+|                                                                                                           |
+|     ------------------------------------------------------------------------------------------------      |
+|                                                                                                           |
+|                   - Here is a guideline to follow when entering Logarithm functions -                     |
+|                                                                                                           |
+|                      > Accepted examples: log100, log10                                                   |
+|                      > Rejected examples: log(100), log(2a+10), logVariableName                           |
+|                                                                                                           |
+*************************************************************************************************************

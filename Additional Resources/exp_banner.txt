@@ -1,0 +1,18 @@
+*************************************************************************************************************
+|                                                                                                           |
+|                                           - Important Note -                                              |
+|     We currently only allow single values in exponential, expressions such as e(a+b) will be rejected.    |
+|                             Do not key in brackets in the exponential function.                           |
+|                      Any variable name in the exponential function will be rejected.                      |
+|                                                                                                           |
+|                                         - Important Reminder -                                            |
+|           Once this feature is disabled, all existing statements with Exponential will not work.          |
+|                                                                                                           |
+|     ------------------------------------------------------------------------------------------------      |
+|                                                                                                           |
+|                   - Here is a guideline to follow when entering Logarithm functions -                     |
+|                                                                                                           |
+|                      > Accepted examples: e2, e10                                                         |
+|                      > Rejected examples: e(2), eVariableName, e(2+a)                                     |
+|                                                                                                           |
+*************************************************************************************************************

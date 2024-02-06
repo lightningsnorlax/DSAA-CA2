@@ -133,11 +133,13 @@ class ParseTree(BinaryTree):
 					# Check if trigonometry
 					elif tree.getKey()[:3].lower() in ['sin', 'cos', 'tan'] and globalVars.trigo_check:
 						operand = int(tree.getKey()[3:])
-
+						# Check if sine
 						if tree.getKey()[:3].lower() == 'sin':
 							return math.sin(math.radians(operand))
+						# Check if cosine
 						elif tree.getKey()[:3].lower() == 'cos':
 							return math.cos(math.radians(operand))
+						# Check if tangent
 						elif tree.getKey()[:3].lower() == 'tan':
 							return math.tan(math.radians(operand))
 					# Check if logarithmn
