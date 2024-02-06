@@ -22,12 +22,12 @@ def action():
 
     output_path = General.validationTracking("\nPlease enter output file: ", lambda x: x.endswith(".txt"))
 
-    by_result = HashTable(size=100)
+    by_result = HashTable(50)
     printed = []
     
     file = FileHandler(folder_path = 'Output')
     file.writeToFile(output_path, "")
-    
+
     if globalVars.smart_cache_check:
         for key in globalVars.outputTable.getAllKeys():
             by_result[key] = globalVars.outputTable[key]
