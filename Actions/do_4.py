@@ -34,7 +34,7 @@ def action():
             if globalVars.smart_cache_check:
                 SmartCaching(globalVars.smart_cache_check, expression, variableName).smart_cache()
         else:
-            print("Invalid expression:", line)
+            print("Invalid File Type:", line)
 
     # Print out current assignments
     do_2.action()

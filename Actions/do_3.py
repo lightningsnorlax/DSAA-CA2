@@ -28,7 +28,7 @@ def action():
         # Instantiate ParseTree
         parseTree = ParseTree(key='?', exp=expression)
         # Evaluate ParseTree
-        evaluation = parseTree.evaluateTree(ref_key=user_input)
+        evaluation = parseTree.evaluateTree()
         # Print in order
         parseTree.printInorder(0)
 

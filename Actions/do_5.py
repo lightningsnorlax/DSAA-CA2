@@ -34,7 +34,7 @@ def action():
     else:
         for key in globalVars.statementTable.getAllKeys():
             parseTree = ParseTree(key='?', exp=globalVars.statementTable[key])
-            evaluation = parseTree.evaluateTree(ref_key=key)
+            evaluation = parseTree.evaluateTree()
             by_result[key] = evaluation
 
     # Sort according to the value of the key
