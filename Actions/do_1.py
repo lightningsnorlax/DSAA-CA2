@@ -26,5 +26,8 @@ def action():
         
     if globalVars.smart_cache_check:
         SmartCaching(globalVars.smart_cache_check, expression, variableName).smart_cache()
+
+    # if not globalVars.trigo_check:
+    #     return
     
     globalVars.statementTable[variableName] = expression

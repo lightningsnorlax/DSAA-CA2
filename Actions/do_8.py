@@ -12,6 +12,7 @@ import Classes.globalVars as globalVars
 # -------------------------
 def action():
     "Enable Smart Bracketing System"
+    
     globalVars.brackets_check = not globalVars.brackets_check
     print(f"Smart Bracketing System is now {'enabled' if globalVars.brackets_check else 'disabled'}")
     action.__doc__ = f"{'Disable' if globalVars.brackets_check else 'Enable'} Smart Bracketing System"

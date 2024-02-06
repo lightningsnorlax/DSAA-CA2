@@ -1,0 +1,15 @@
+*************************************************************************************************************
+|                                                                                                           |
+|                                           - Important Note -                                              |
+|   We currently only allow single values in trigonometry, expressions such as sin(a+b) will be rejected.   |
+|                           Only the angle degrees: 30, 45 and 60 will be accepted.                         |
+|                      Any variable name in the trigonometry function will be rejected.                     |
+|                                                                                                           |
+|     ------------------------------------------------------------------------------------------------      |
+|                                                                                                           |
+|                   - Here is a guideline to follow when entering Trigonometry functions -                  |
+|                                                                                                           |
+|                      > Accepted examples: sin30, SIN30, cos45, COS45, tan45, TAN45                        |
+|                      > Rejected examples: sin(30), sin(20+40), sin20, sin(a)                              |
+|                                                                                                           |
+*************************************************************************************************************
