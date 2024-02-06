@@ -69,6 +69,11 @@ class Bracketting():
                 bracket_count += 1
             elif i == ")":
                 bracket_count -= 1
+
+        if self.__bracket_check:
+            for i in self.__exp:
+                if i in ["(", ")"]:
+                    return False
             
         # Rule 1, brackets should cancel each other out
         if bracket_count != 0:

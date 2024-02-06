@@ -14,6 +14,19 @@ from Classes.stack import Stack
 # -------------------------
 # Bracketting Class
 # -------------------------
+# Name: Lim Yu Yang Ian & Yadanar Aung
+# Admin No.: 2201874 & 2214621
+# Class: DAAA/FT/2B/07
+
+# -------------------------
+# Imports
+# -------------------------
+import re
+from Classes.stack import Stack
+
+# -------------------------
+# Bracketting Class
+# -------------------------
 class Bracketting():
     def __init__(self, exp, bracket_check):
         self.__exp = exp
@@ -28,7 +41,7 @@ class Bracketting():
         elif s.isalpha():
             return True
         # Check for sin cos tan
-        elif len(s) == 5 and s[:3] in ["sin", "cos", "tan"] and s[3:].isdigit() and int(s[3:]) in [30, 45, 60]:
+        elif len(s) == 5 and s[:3] in ["sin", "cos", "tan"] and s[3:].isdigit() and int(s[3:]) in [0, 30, 45, 60]:
             return True
         # Checks for e
         elif len(s) == 2 and s[0] == "e" and s[1].isdigit():
@@ -68,6 +81,11 @@ class Bracketting():
                 bracket_count += 1
             elif i == ")":
                 bracket_count -= 1
+
+        if self.__bracket_check:
+            for i in self.__exp:
+                if i in ["(", ")"]:
+                    return False
             
         # Rule 1, brackets should cancel each other out
         if bracket_count != 0:
@@ -233,7 +251,7 @@ if __name__ == "__main__":
     string3 = "2.2+((4*5**2)-7)"
     errorstring1 = "2.2(+)4*5**2-7+a"
     newstring1 = "2.7 + cos45 / sin30 * tan60 + e2 + log100"
-    chosen = string2
+    chosen = string3
     brackets = Bracketting(chosen, True)
     print(brackets.bracket_checking())
     testing = brackets.parsing_exp()
