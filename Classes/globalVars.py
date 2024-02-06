@@ -12,12 +12,11 @@ from Classes.hashTable import HashTable
 # -------------------------
 # Purpose is to make the Hash Table, statementTable, and other toggleable actions global
 def initialize(): 
-    global statementTable, brackets_check, smart_cache_check, trigo_check, logarithm_check, exp_check, referenceTable, outputTable, reverseReferenceTable
+    global statementTable, brackets_check, smart_cache_check, trigo_check, logarithm_check, exp_check, referenceTable, outputTable
 
     statementTable = HashTable(15) # Instantiate a Hash Table to store assignment statements
     referenceTable = HashTable(15) # Instantiate a Hash Table to store reference variables
     outputTable = HashTable(15) # Instantiate a Hash Table to store output variables
-    reverseReferenceTable = HashTable(15) # Instantiate a Hash Table to store reverse reference variables
 
     # Toggleable Purposes
     brackets_check = False
