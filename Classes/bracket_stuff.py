@@ -13,6 +13,7 @@ import Classes.globalVars as globalVars
 # Bracketting Class
 # -------------------------
 class Bracketting():
+    # Constructor Function
     def __init__(self, exp, bracket_check):
         self.__exp = exp
         self.__flag = True
@@ -25,18 +26,15 @@ class Bracketting():
             return s.replace('.', '', 1).isdigit()
         elif s.isalpha():
             return True
-        elif globalVars.trigo_check:
-            # Check for sin cos tan
-            if len(s) == 5 and s[:3] in ["sin", "cos", "tan"] and s[3:].isdigit() and int(s[3:]) in [0, 30, 45, 60]:
+        # Check for sin cos tan
+        elif len(s) == 5 and s[:3] in ["sin", "cos", "tan"] and s[3:].isdigit() and int(s[3:]) in [0, 30, 45, 60] and globalVars.trigo_check:
                 return True
-        elif globalVars.exp_check:
-            # Checks for e
-            if len(s) == 2 and s[0] == "e" and s[1].isdigit():
-                return True
-        elif globalVars.logarithm_check:
-            # Checks for log
-            if len(s) >= 4 and s[:3] == "log" and s[3:].isdigit():
-                return True
+        # Checks for e
+        elif len(s) == 2 and s[0] == "e" and s[1].isdigit() and globalVars.exp_check:
+            return True
+        # Checks for log
+        elif len(s) >= 4 and s[:3] == "log" and s[3:].isdigit() and globalVars.logarithm_check:
+            return True
         return s.isdigit()
     
     def __getPattern(self):
@@ -56,9 +54,8 @@ class Bracketting():
     def return_tokens(self):
         return self.__tokenize_expression(self.__exp)
     
-        # Check that brackets match up accordingly, open and close brackets
+    # Check that brackets match up accordingly, open and close brackets
     def bracket_checking(self):
-        
         # Setting temps variables
         bracket_count = 0
         operator_count = 0
