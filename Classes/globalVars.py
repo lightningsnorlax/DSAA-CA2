@@ -18,5 +18,5 @@ def initialize():
     outputTable = HashTable(15) # Instantiate a Hash Table to store output variables
     reverseReferenceTable = HashTable(15) # Instantiate a Hash Table to store reverse reference variables
     brackets_check = False
-    smart_cache_check = False
+    smart_cache_check = True
     

@@ -8,6 +8,7 @@
 import Classes.globalVars as globalVars
 from Classes.bracket_stuff import Bracketting
 from Classes.parseTree import ParseTree
+import time
 
 class SmartCaching:
     def __init__(self, smart_cache_check, exp, var):
@@ -28,9 +29,6 @@ class SmartCaching:
             
     def __output_table_add(self, eval):
         globalVars.outputTable[self.__var] = eval
-        print(eval, self.__var)
-        print(globalVars.outputTable.getAllItems())
-        
     
     def smart_cache(self):
         bracketting = Bracketting(self.__exp, globalVars.brackets_check)
@@ -49,8 +47,6 @@ class SmartCaching:
         self.__add_output(self.__exp, self.__var)
         
         # Checking for need to update other output tables
-        if self.__var in globalVars.referenceTable.getAllKeys():
-            self.__update_output()
         
     def __add_output(self, exp, var):
         parseTree = ParseTree(key="?", exp=exp, ref_key=var)
@@ -60,14 +56,18 @@ class SmartCaching:
                 evaluation = int(evaluation)
         
         self.__output_table_add(evaluation)
+        if var in globalVars.referenceTable.getAllKeys():
+            self.__update_output()
         
     def __update_output(self):
-        print("updating output\n\n", self.__var)
         items = globalVars.referenceTable[self.__var]
         for item in items:
-            self.__add_output(globalVars.statementTable[item], item)
+            if item in globalVars.statementTable.getAllKeys():
+                SmartCaching(globalVars.smart_cache_check, globalVars.statementTable[item], item).smart_cache()
             
     def __update_references(self):
-        print("updating references")
         for ref in globalVars.reverseReferenceTable[self.__var]:
-            globalVars.referenceTable[ref].remove(self.__var)
+            print(ref, self.__var, globalVars.referenceTable[ref])
+            print(globalVars.referenceTable.getAllItems())
+            if self.__var in globalVars.referenceTable[ref]:
+                globalVars.referenceTable[ref].remove(self.__var)
