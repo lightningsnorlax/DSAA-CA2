@@ -39,65 +39,68 @@ class ParseTree(BinaryTree):
 		currentTree = tree
 
 		# Check if length of tokens is 3, which suggest (number), no need to build Parse Tree with '?'
+		if len(tokens) == 3:
+			currentTree.setKey(tokens[1])
+		else:
 
-		for t in tokens: 
-		
-			# RULE 1: If token is '(' add a new node as left child 
-			# and descend into that node
-			if t == '(':
-				currentTree.insertLeft('?') # Descend to Left
-				stack.push(currentTree)
-				currentTree = currentTree.getLeftTree()
+			for t in tokens: 
 			
-			# RULE 2: If token is operator set key of current node 
-			# to that operator and add a new node as right child 
-			# and descend into that node
-			elif t in ['+', '-', '*', '/', '**']:
-				currentTree.setKey(t)
-				currentTree.insertRight('?') # Ready for right operand
-				stack.push(currentTree) # push current tree to stack to keep track of where it came from
-				currentTree = currentTree.getRightTree() # descend down one level
+				# RULE 1: If token is '(' add a new node as left child 
+				# and descend into that node
+				if t == '(':
+					currentTree.insertLeft('?') # Descend to Left
+					stack.push(currentTree)
+					currentTree = currentTree.getLeftTree()
+				
+				# RULE 2: If token is operator set key of current node 
+				# to that operator and add a new node as right child 
+				# and descend into that node
+				elif t in ['+', '-', '*', '/', '**']:
+					currentTree.setKey(t)
+					currentTree.insertRight('?') # Ready for right operand
+					stack.push(currentTree) # push current tree to stack to keep track of where it came from
+					currentTree = currentTree.getRightTree() # descend down one level
 
-			# RULE 3: If token is a variable name, set key of current node 
-			# to that variable name and return to parent
-			elif t.isalpha():
-				currentTree.setKey(t)
-				parent = stack.pop() # move current tree to the previous stack / parent
-				currentTree = parent
+				# RULE 3: If token is a variable name, set key of current node 
+				# to that variable name and return to parent
+				elif t.isalpha():
+					currentTree.setKey(t)
+					parent = stack.pop() # move current tree to the previous stack / parent
+					currentTree = parent
 
-			# RULE 4: If token is a trigonmetric function, set key of current node 
-			# to that variable name and return to parent
-			elif t[:3].lower() in ['sin', 'cos', 'tan']:
-				currentTree.setKey(t)
-				parent = stack.pop() # move current tree to the previous stack / parent
-				currentTree = parent
+				# RULE 4: If token is a trigonmetric function, set key of current node 
+				# to that variable name and return to parent
+				elif t[:3].lower() in ['sin', 'cos', 'tan']:
+					currentTree.setKey(t)
+					parent = stack.pop() # move current tree to the previous stack / parent
+					currentTree = parent
 
-			# RULE 5: If token is a logarithm function, set key of current node 
-			# to that variable name and return to parent
-			elif t[:3].lower() == 'log':
-				currentTree.setKey(t)
-				parent = stack.pop() # move current tree to the previous stack / parent
-				currentTree = parent
+				# RULE 5: If token is a logarithm function, set key of current node 
+				# to that variable name and return to parent
+				elif t[:3].lower() == 'log':
+					currentTree.setKey(t)
+					parent = stack.pop() # move current tree to the previous stack / parent
+					currentTree = parent
 
-			# RULE 6: If token is an exponential function, set key of current node 
-			# to that variable name and return to parent
-			elif t[:1].lower() == 'e':
-				currentTree.setKey(t)
-				parent = stack.pop() # move current tree to the previous stack / parent
-				currentTree = parent
-			
-			# RULE 7: If token is number, set key of the current node 
-			# to that number and return to parent
-			elif t not in ['+', '-', '*', '/', '**', ')']: 
-				currentTree.setKey(float(t)) 
-				parent = stack.pop() # move current tree to the previous stack / parent
-				currentTree = parent
-			
-			# RULE 8: If token is ')' go to parent of current node
-			elif t == ')':
-				currentTree = stack.pop()
-			else:
-				raise ValueError
+				# RULE 6: If token is an exponential function, set key of current node 
+				# to that variable name and return to parent
+				elif t[:1].lower() == 'e':
+					currentTree.setKey(t)
+					parent = stack.pop() # move current tree to the previous stack / parent
+					currentTree = parent
+				
+				# RULE 7: If token is number, set key of the current node 
+				# to that number and return to parent
+				elif t not in ['+', '-', '*', '/', '**', ')']: 
+					currentTree.setKey(float(t)) 
+					parent = stack.pop() # move current tree to the previous stack / parent
+					currentTree = parent
+				
+				# RULE 8: If token is ')' go to parent of current node
+				elif t == ')':
+					currentTree = stack.pop()
+				else:
+					raise ValueError
 			
 		return tree
 
@@ -152,6 +155,9 @@ class ParseTree(BinaryTree):
 					elif tree.getKey()[:1].lower() == 'e' and globalVars.exp_check:
 						exponent = int(tree.getKey()[1:])
 						return math.exp(exponent) 
+					# Check if it is a case of single value, e.g. a=(1)
+					elif tree.getKey().isnumeric():
+						return tree.getKey()
 				except:
 					return tree.getKey()
 		except:

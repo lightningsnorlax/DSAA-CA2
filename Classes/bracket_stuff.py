@@ -13,6 +13,7 @@ import Classes.globalVars as globalVars
 # Bracketting Class
 # -------------------------
 class Bracketting():
+    # Constructor Function
     def __init__(self, exp, bracket_check):
         self.__exp = exp
         self.__flag = True
@@ -53,9 +54,8 @@ class Bracketting():
     def return_tokens(self):
         return self.__tokenize_expression(self.__exp)
     
-        # Check that brackets match up accordingly, open and close brackets
+    # Check that brackets match up accordingly, open and close brackets
     def bracket_checking(self):
-        
         # Setting temps variables
         bracket_count = 0
         operator_count = 0
