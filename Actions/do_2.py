@@ -15,7 +15,7 @@ from Classes.parseTree import ParseTree
 def action():
     "Display current assignment statements"
 
-    print("\nCURRENT ASSIGNMENTS:\n**")
+    print("\nCURRENT ASSIGNMENTS:\n********************")
 
     # Sort statements in alphabetical order, according to variable name (key)
     sortedKeys = mergeSort.mergeSort(globalVars.statementTable.getAllKeys())
