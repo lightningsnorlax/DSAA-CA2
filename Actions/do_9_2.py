@@ -16,6 +16,7 @@ import time
 def action():
     "Compare speeds of Smart Caching"
     print("\nComparing speeds of Option 2")
+    print("-" * 50)
     temp_store_check = globalVars.smart_cache_check
 
     def timeOption2():
@@ -34,8 +35,10 @@ def action():
     with_smart_caching = timeOption2()
     
     print("\n")
-    print("-" * 30)
-    print(f"Without Smart Caching: {without_smart_caching} seconds")
-    print(f"With Smart Caching: {with_smart_caching} seconds")
-    print(f"Difference: {without_smart_caching - with_smart_caching} seconds")
+    print("Speed Comparison")
+    print("-" * 50)
+    print(f"Without Smart Caching: {without_smart_caching:.10f} seconds")
+    print(f"With Smart Caching: {with_smart_caching:.10f} seconds")
+    print(f"Difference: {without_smart_caching - with_smart_caching:.10f} seconds")
+    globalVars.smart_cache_check = temp_store_check
     

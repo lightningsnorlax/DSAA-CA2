@@ -22,7 +22,7 @@ def action():
     file = FileHandler(folder_path = 'Input')
 
     # Input File Validation
-    inputFile = General.validationTracking("Please enter input file: ", lambda x: x.endswith(".txt"))
+    inputFile = General.validationTracking("Please enter input file: ", lambda x: x.endswith(".txt"), output="Invalid File Type")
 
     for line in file.readByLine(inputFile):
         flag = True
