@@ -9,15 +9,15 @@ class HashTable:
 
 	# Constructor Function
 	def __init__(self, initial_capacity=10, load_factor=0.7):
-		self.capacity = initial_capacity
-		self.size = 0
-		self.load_factor = load_factor
-		self.keys = [None] * self.capacity
-		self.buckets = [None] * self.capacity
+		self.__capacity = initial_capacity
+		self.__size = 0
+		self.__load_factor = load_factor
+		self.__keys = [None] * self.__capacity
+		self.__buckets = [None] * self.__capacity
 
 	# A simple remainder method to convert key to index
-	def hash_function(self, key):
-		return hash(key) % self.capacity
+	def __hash_function(self, key):
+		return hash(key) % self.__capacity
 
 		# Source Credits: https://cp-algorithms.com/string/string-hashing.html
 		# p = 31
@@ -36,18 +36,18 @@ class HashTable:
 
 	# Deal with collision resolution by means of
 	# linear probing with a 'plus 1' rehash
-	def rehash_function(self, old_hash):
-		return (old_hash + 1) % self.capacity
+	def __rehash_function(self, old_hash):
+		return (old_hash + 1) % self.__capacity
 	
 	# Resize the hash table
 	def resize(self, new_capacity):
-		old_keys = self.keys
-		old_buckets = self.buckets
+		old_keys = self.__keys
+		old_buckets = self.__buckets
 
-		self.capacity = new_capacity
-		self.keys = [None] * self.capacity
-		self.buckets = [None] * self.capacity
-		self.size = 0
+		self.__capacity = new_capacity
+		self.__keys = [None] * self.__capacity
+		self.__buckets = [None] * self.__capacity
+		self.__size = 0
 
 		for key, value in zip(old_keys, old_buckets):
 			if key is not None:
@@ -60,13 +60,13 @@ class HashTable:
 		startIndex = index
 		while True:
 			# If bucket is empty then just use it
-			if self.buckets[index] == None:
-				self.buckets[index] = value
-				self.keys[index] = key
+			if self.__buckets[index] == None:
+				self.__buckets[index] = value
+				self.__keys[index] = key
 				break
 			else: # If not empty and the same key then just overwrite
-				if self.keys[index] == key:
-					self.buckets[index] = value
+				if self.__keys[index] == key:
+					self.__buckets[index] = value
 					break
 				else: # Look for another available bucket
 					index = self.rehashFunction(index)
@@ -76,46 +76,46 @@ class HashTable:
 	
 	# Value retrieval from key
 	def __setitem__(self, key, value):
-		if (self.size + 1) / self.capacity > self.load_factor:
-			self.resize(self.capacity * 2)
+		if (self.__size + 1) / self.__capacity > self.__load_factor:
+			self.resize(self.__capacity * 2)
 
-		index = self.hash_function(key)
+		index = self.__hash_function(key)
 		start_index = index
 
 		while True:
 			# If bucket is empty then just use it
-			if self.keys[index] is None:
-				self.buckets[index] = value
-				self.keys[index] = key
-				self.size += 1
+			if self.__keys[index] is None:
+				self.__buckets[index] = value
+				self.__keys[index] = key
+				self.__size += 1
 				break
 			else:  # If not empty and the same key then just overwrite
-				if self.keys[index] == key:
-					self.buckets[index] = value
+				if self.__keys[index] == key:
+					self.__buckets[index] = value
 					break
 				else:  # Look for another available bucket
-					index = self.rehash_function(index)
+					index = self.__rehash_function(index)
 					# We must stop if no more buckets
 					if index == start_index:
 						break
 					
 	# Value retrieval from key
 	def __getitem__(self, key):
-		index = self.hash_function(key)
+		index = self.__hash_function(key)
 		start_index = index
 
 		while True:
-			if self.keys[index] == key: 
-				return self.buckets[index]
+			if self.__keys[index] == key: 
+				return self.__buckets[index]
 			else:
-				index = self.rehash_function(index)
-				if index == start_index or self.keys[index] is None:
+				index = self.__rehash_function(index)
+				if index == start_index or self.__keys[index] is None:
 					return None
 				
 	# Retrieve all keys
 	def getAllKeys(self):
-		return [key for key in self.keys if key is not None]
+		return [key for key in self.__keys if key is not None]
 
 	# Retrieve all items
 	def getAllItems(self):
-		return [(key, self.buckets[i]) for i, key in enumerate(self.keys) if key is not None]
+		return [(key, self.__buckets[i]) for i, key in enumerate(self.__keys) if key is not None]

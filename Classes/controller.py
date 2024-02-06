@@ -22,9 +22,9 @@ class Controller(Stack):
         super().__init__()
         self.__modules = []
         self.__finished_modules = []
-        self.initialize_modules()
+        self.__initialize_modules()
 
-    def initialize_modules(self):
+    def __initialize_modules(self):
         self.push("do_")
 
         for file in os.listdir(folderPath):
@@ -32,17 +32,17 @@ class Controller(Stack):
                 self.__modules.append(file)
         self.__modules.sort()
 
-    def import_module(self, file):
+    def __import_module(self, file):
         module_name = file[:-3]
         return importlib.import_module(f"{folderPath}.{module_name}")
 
-    def generate_menu(self):
+    def __generate_menu(self):
         # Get current existing modules from 'Action' Folder
         current_modules = list(filter(lambda x: x.startswith(self.__str__()) and (len(x.replace(self.__str__(), "").split('_')) <= 1), self.__modules))
 
         print("\nPlease select your choice ('{}'): ".format("','".join(map(str, range(1, len(current_modules) + 2)))))
         # Print Menu Options
-        print("\n".join([f"\t{i+1}. {self.import_module(module).action.__doc__}" for i, module in enumerate(current_modules)]))
+        print("\n".join([f"\t{i+1}. {self.__import_module(module).action.__doc__}" for i, module in enumerate(current_modules)]))
         if self.__str__() == "do_":
             print(f"\t{len(current_modules) + 1}. Exit")
         else:
@@ -54,15 +54,15 @@ class Controller(Stack):
 
         while user_input_error:
             # Display Menu
-            self.generate_menu()
+            self.__generate_menu()
             # Get user option
             user_input = input()
             # Execute option
-            self.execute(user_input)
+            self.__execute(user_input)
             if self.size() <= 0:
                 user_input_error = False
 
-    def execute(self, user_input):
+    def __execute(self, user_input):
         filePath = os.path.join(folderPath, f"{self}{user_input}.py")
         current_modules = list(filter(lambda x: x.startswith(self.__str__()) and (len(x.replace(self.__str__(), "").split('_')) <= 1), self.__modules))
 
@@ -75,7 +75,7 @@ class Controller(Stack):
             self.pop()
         else:
             try:
-                module = self.import_module(filePath[len(folderPath) + 1:])
+                module = self.__import_module(filePath[len(folderPath) + 1:])
                 module.action()
                 input("\nPress enter key, to continue....")
             # If user chooses an invalid option
