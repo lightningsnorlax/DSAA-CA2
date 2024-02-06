@@ -105,9 +105,9 @@ class HashTable:
 		start_index = index
 
 		while True:
-			if self.keys[index] == key:  # Will be mostly the case unless value had been previously rehashed at insertion time
+			if self.keys[index] == key: 
 				return self.buckets[index]
-			else:  # Value for the key is somewhere else (due to imperfect hash function)
+			else:
 				index = self.rehash_function(index)
 				if index == start_index or self.keys[index] is None:
 					return None
@@ -119,7 +119,3 @@ class HashTable:
 	# Retrieve all items
 	def getAllItems(self):
 		return [(key, self.buckets[i]) for i, key in enumerate(self.keys) if key is not None]
-
-	
-# Issues to relook at
-# relook at hash function, getAllKeys, getAllItems
