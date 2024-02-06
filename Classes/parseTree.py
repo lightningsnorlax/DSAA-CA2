@@ -13,6 +13,7 @@ import operator
 import turtle
 import tkinter as tk
 import functools
+import math
 
 # -------------------------
 # ParseTree Class
@@ -61,15 +62,36 @@ class ParseTree(BinaryTree):
 				currentTree.setKey(t)
 				parent = stack.pop() # move current tree to the previous stack / parent
 				currentTree = parent
+
+			# RULE 4: If token is a trigonmetric function, set key of current node 
+			# to that variable name and return to parent
+			elif t[:3].lower() in ['sin', 'cos', 'tan']:
+				currentTree.setKey(t)
+				parent = stack.pop() # move current tree to the previous stack / parent
+				currentTree = parent
+
+			# RULE 5: If token is a logarithm function, set key of current node 
+			# to that variable name and return to parent
+			elif t[:3].lower() == 'log':
+				currentTree.setKey(t)
+				parent = stack.pop() # move current tree to the previous stack / parent
+				currentTree = parent
+
+			# RULE 6: If token is an exponential function, set key of current node 
+			# to that variable name and return to parent
+			elif t[:1].lower() == 'e':
+				currentTree.setKey(t)
+				parent = stack.pop() # move current tree to the previous stack / parent
+				currentTree = parent
 			
-			# RULE 4: If token is number, set key of the current node 
+			# RULE 7: If token is number, set key of the current node 
 			# to that number and return to parent
 			elif t not in ['+', '-', '*', '/', '**', ')']: 
 				currentTree.setKey(float(t)) 
 				parent = stack.pop() # move current tree to the previous stack / parent
 				currentTree = parent
 			
-			# RULE 5: If token is ')' go to parent of current node
+			# RULE 8: If token is ')' go to parent of current node
 			elif t == ')':
 				currentTree = stack.pop()
 			else:
@@ -108,6 +130,24 @@ class ParseTree(BinaryTree):
 							return parseTree.evaluateTree()
 						else:
 							return None
+					# Check if trigonometry
+					elif tree.getKey()[:3].lower() in ['sin', 'cos', 'tan']:
+						operand = int(tree.getKey()[3:])
+
+						if tree.getKey()[:3].lower() == 'sin':
+							return math.sin(math.radians(operand))
+						elif tree.getKey()[:3].lower() == 'cos':
+							return math.cos(math.radians(operand))
+						elif tree.getKey()[:3].lower() == 'tan':
+							return math.tan(math.radians(operand))
+					# Check if logarithmn
+					elif tree.getKey()[:3].lower() == 'log':
+						operand = int(tree.getKey()[3:])
+						return math.log10(operand)
+					# Check if exponential
+					elif tree.getKey()[:1].lower() == 'e':
+						exponent = int(tree.getKey()[1:])
+						return math.exp(exponent) 
 				except:
 					return tree.getKey()
 		except:

@@ -8,6 +8,7 @@
 from Classes.controller import Controller
 import Classes.globalVars as globalVars
 from Classes.fileHandler import FileHandler
+import math
 
 # -------------------------
 # Main Function
@@ -16,6 +17,9 @@ def main():
     
     # Initialize statementTable to be global to store assignment statements
     globalVars.initialize()
+
+    print(math.log10(100)+1)
+    print(math.log10(100)+1)
 
     # Display Banner
     file = FileHandler(folder_path = 'Additional Resources')
