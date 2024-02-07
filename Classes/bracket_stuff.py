@@ -49,7 +49,6 @@ class Bracketting():
             return True
         # Checks for log
         elif len(s) >= 4 and s[:3] == "log" and s[3:].isdigit() and globalVars.logarithm_check:
-            print(s)
             return True
         
         # Checks for digits
